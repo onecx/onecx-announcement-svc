@@ -81,13 +81,14 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/RestException'
     post:
       tags:
         - AnnouncementInternal
       summary: Add announcement
       operationId: addAnnouncement
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -104,19 +105,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-        "403":
-          description: Not authorized
-          content:
-            application/json:
-              schema:
-                type: object
+                $ref: '#/components/schemas/RestException'
         "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/RestException'
   /internal/announcements/applications:
     get:
       tags:
@@ -132,18 +127,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Application'
-        "403":
-          description: Not authorized
-          content:
-            application/json:
-              schema:
-                type: object
         "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/RestException'
   /internal/announcements/{id}:
     get:
       tags:
@@ -163,12 +152,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AnnouncementDetailItem'
-        "403":
-          description: Not authorized
-          content:
-            application/json:
-              schema:
-                type: object
         "500":
           description: Internal Server Error
           content:
@@ -189,18 +172,12 @@ paths:
       responses:
         "204":
           description: No content
-        "403":
-          description: Not authorized
-          content:
-            application/json:
-              schema:
-                type: object
         "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/RestException'
     patch:
       tags:
         - AnnouncementInternal
@@ -229,19 +206,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-        "403":
-          description: Not authorized
-          content:
-            application/json:
-              schema:
-                type: object
+                $ref: '#/components/schemas/RestException'
         "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/RestException'
 components:
   schemas:
     AnnouncementCreate:
@@ -375,3 +346,29 @@ components:
       format: date-time
       type: string
       example: 2022-03-10T12:15:50-04:00
+    RestException:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        message:
+          type: string
+        parameters:
+          type: array
+          items:
+            type: object
+        namedParameters:
+          type: object
+          additionalProperties:
+            type: object
+        validations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationConstraint'
+    ValidationConstraint:
+      type: object
+      properties:
+        parameter:
+          type: string
+        message:
+          type: string
