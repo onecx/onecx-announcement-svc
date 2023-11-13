@@ -1,0 +1,343 @@
+openapi: "3.0.3"
+info:
+  title: onecx-announcement-svc
+  version: "1.0"
+servers:
+  - url: https://localhost:8080
+tags:
+  - name: AnnouncementInternal
+    description: Execute Announcement CRUD operations
+paths:
+  /internal/announcements:
+    get:
+      tags:
+        - AnnouncementInternal
+      summary: Retrieve announcements
+      operationId: getAnnouncements
+      parameters:
+        - name: appId
+          in: query
+          schema:
+            type: string
+        - name: endDateFrom
+          in: query
+          schema:
+            $ref: '#/components/schemas/OffsetDateTime'
+        - name: endDateTo
+          in: query
+          schema:
+            $ref: '#/components/schemas/OffsetDateTime'
+        - name: priority
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/AnnouncementPriorityType'
+        - name: startDateFrom
+          in: query
+          schema:
+            $ref: '#/components/schemas/OffsetDateTime'
+        - name: startDateTo
+          in: query
+          schema:
+            $ref: '#/components/schemas/OffsetDateTime'
+        - name: status
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/AnnouncementStatus'
+        - name: type
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/AnnouncementType'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AnnouncementListItemDTO'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      tags:
+        - AnnouncementInternal
+      summary: Add announcement
+      operationId: addAnnouncement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnouncementCreateDTO'
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementDetailItemDTO'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+        "403":
+          description: Not authorized
+          content:
+            application/json:
+              schema:
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+  /internal/announcements/applications:
+    get:
+      tags:
+        - AnnouncementInternal
+      summary: Get all apps with at least one announcement
+      operationId: getAllAppsWithAnnouncements
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationDTO'
+        "403":
+          description: Not authorized
+          content:
+            application/json:
+              schema:
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+  /internal/announcements/{id}:
+    get:
+      tags:
+        - AnnouncementInternal
+      summary: Retrieve announcement by id
+      operationId: getAnnouncementById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementDetailItemDTO'
+        "403":
+          description: Not authorized
+          content:
+            application/json:
+              schema:
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+        - AnnouncementInternal
+      summary: Delete announcement
+      operationId: deleteAnnouncementById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No content
+        "403":
+          description: Not authorized
+          content:
+            application/json:
+              schema:
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+    patch:
+      tags:
+        - AnnouncementInternal
+      summary: Patch/update announcement
+      operationId: updateAnnouncementById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnouncementDetailItemDTO'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementDetailItemDTO'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+        "403":
+          description: Not authorized
+          content:
+            application/json:
+              schema:
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    AnnouncementCreateDTO:
+      type: object
+      properties:
+        version:
+          format: int32
+          type: integer
+        creationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationUser:
+          type: string
+        modificationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationUser:
+          type: string
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        type:
+          $ref: '#/components/schemas/AnnouncementType'
+        priority:
+          $ref: '#/components/schemas/AnnouncementPriorityType'
+        status:
+          $ref: '#/components/schemas/AnnouncementStatus'
+        startDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        endDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        appId:
+          type: string
+    AnnouncementDetailItemDTO:
+      type: object
+      properties:
+        version:
+          format: int32
+          type: integer
+        creationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationUser:
+          type: string
+        modificationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationUser:
+          type: string
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        type:
+          $ref: '#/components/schemas/AnnouncementType'
+        priority:
+          $ref: '#/components/schemas/AnnouncementPriorityType'
+        status:
+          $ref: '#/components/schemas/AnnouncementStatus'
+        startDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        endDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        appId:
+          type: string
+    AnnouncementListItemDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        type:
+          $ref: '#/components/schemas/AnnouncementType'
+        priority:
+          $ref: '#/components/schemas/AnnouncementPriorityType'
+        status:
+          $ref: '#/components/schemas/AnnouncementStatus'
+        startDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        endDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        appId:
+          type: string
+    AnnouncementPriorityType:
+      enum:
+        - IMPORTANT
+        - NORMAL
+        - LOW
+      type: string
+    AnnouncementStatus:
+      enum:
+        - ACTIVE
+        - INACTIVE
+      type: string
+    AnnouncementType:
+      enum:
+        - EVENT
+        - INFO
+        - SYSTEM_MAINTENANCE
+      type: string
+    ApplicationDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        description:
+          type: string
+    OffsetDateTime:
+      format: date-time
+      type: string
+      example: 2022-03-10T12:15:50-04:00
