@@ -72,7 +72,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnnouncementPageResultDTOv1'
+                $ref: '#/components/schemas/AnnouncementPageResultv1'
         "500":
           description: Internal Server Error
           content:
@@ -97,7 +97,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnnouncementListItemDTOv1'
+                $ref: '#/components/schemas/AnnouncementListItemv1'
         "403":
           description: Not Authorized
           content:
@@ -118,7 +118,7 @@ paths:
                 type: object
 components:
   schemas:
-    AnnouncementDetailItemDTOv1:
+    AnnouncementDetailItemv1:
       type: object
       properties:
         version:
@@ -158,7 +158,7 @@ components:
           format: date-time
           type: string
           example: 2022-03-10T12:15:50-04:00
-    AnnouncementListItemDTOv1:
+    AnnouncementListItemv1:
       type: object
       properties:
         id:
@@ -177,8 +177,8 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         endDate:
           $ref: '#/components/schemas/OffsetDateTime'
-    AnnouncementPageResultDTOv1:
-      description: PageResult DTOv1 for Announcements
+    AnnouncementPageResultv1:
+      description: PageResult v1 for Announcements
       type: object
       properties:
         totalElements:
@@ -196,7 +196,7 @@ components:
         stream:
           type: array
           items:
-            $ref: '#/components/schemas/AnnouncementDetailItemDTOv1'
+            $ref: '#/components/schemas/AnnouncementDetailItemv1'
     AnnouncementPriorityType:
       enum:
         - IMPORTANT
