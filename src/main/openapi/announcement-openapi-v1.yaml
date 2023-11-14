@@ -8,64 +8,18 @@ tags:
   - name: AnnouncementV1
     description: Announcement Management v1 RS API
 paths:
-  /v1/applications/announcements:
-    get:
+  /v1/applications/announcements/search:
+    post:
       tags:
         - AnnouncementV1
       summary: Get announcements
       operationId: getAnnouncementsByCriteriaV1
-      parameters:
-        - name: appId
-          required: true
-          in: query
-          schema:
-            type: string
-        - name: endDateFrom
-          in: query
-          schema:
-            $ref: '#/components/schemas/OffsetDateTime'
-        - name: endDateTo
-          in: query
-          schema:
-            $ref: '#/components/schemas/OffsetDateTime'
-        - name: pageNumber
-          in: query
-          schema:
-            format: int32
-            default: "0"
-            type: integer
-        - name: pageSize
-          in: query
-          schema:
-            format: int32
-            default: "100"
-            type: integer
-        - name: priority
-          in: query
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/AnnouncementPriorityType'
-        - name: startDateFrom
-          in: query
-          schema:
-            $ref: '#/components/schemas/OffsetDateTime'
-        - name: startDateTo
-          in: query
-          schema:
-            $ref: '#/components/schemas/OffsetDateTime'
-        - name: status
-          in: query
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/AnnouncementStatus'
-        - name: type
-          in: query
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/AnnouncementType'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Announcement'
       responses:
         "200":
           description: OK
@@ -97,7 +51,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnnouncementListItem'
+                $ref: '#/components/schemas/AnnouncementList'
         "404":
           description: Not Found
           content:
@@ -112,7 +66,7 @@ paths:
                 $ref: '#/components/schemas/RestException'
 components:
   schemas:
-    AnnouncementDetailItem:
+    Announcement:
       type: object
       properties:
         version:
@@ -152,7 +106,7 @@ components:
           format: date-time
           type: string
           example: 2022-03-10T12:15:50-04:00
-    AnnouncementListItem:
+    AnnouncementList:
       type: object
       properties:
         id:
@@ -190,7 +144,7 @@ components:
         stream:
           type: array
           items:
-            $ref: '#/components/schemas/AnnouncementDetailItem'
+            $ref: '#/components/schemas/Announcement'
     AnnouncementPriorityType:
       enum:
         - IMPORTANT
