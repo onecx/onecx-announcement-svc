@@ -19,7 +19,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Announcement'
+              $ref: '#/components/schemas/SearchAnnouncementRequest'
       responses:
         "200":
           description: OK
@@ -34,7 +34,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestException'
+                $ref: '#/components/schemas/AnnouncementProblemResponse'
         "500":
           description: Internal Server Error
           content:
@@ -71,7 +71,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestException'
+                $ref: '#/components/schemas/AnnouncementProblemResponse'
         "500":
           description: Internal Server Error
           content:
@@ -82,7 +82,7 @@ paths:
     get:
       tags:
         - AnnouncementInternal
-      summary: Get all apps with at least one announcement
+      summary: Get all application IDs to which announcements are assigned
       operationId: getAllAppsWithAnnouncements
       responses:
         "200":
@@ -122,7 +122,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/RestException'
     delete:
       tags:
         - AnnouncementInternal
@@ -171,7 +171,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestException'
+                $ref: '#/components/schemas/AnnouncementProblemResponse'
         "500":
           description: Internal Server Error
           content:
@@ -199,6 +199,53 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         appId:
           type: string
+    SearchAnnouncementRequest:
+      type: object
+      properties:
+        creationDateFrom:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationDateTo:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationUser:
+          type: string
+        modificationDateFrom:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationDateTo:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationUser:
+          type: string
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        type:
+          $ref: '#/components/schemas/AnnouncementType'
+        priority:
+          $ref: '#/components/schemas/AnnouncementPriorityType'
+        status:
+          $ref: '#/components/schemas/AnnouncementStatus'
+        startDateFrom:
+          $ref: '#/components/schemas/OffsetDateTime'
+        startDateTo:
+          $ref: '#/components/schemas/OffsetDateTime'
+        endDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        endDateTo:
+          $ref: '#/components/schemas/OffsetDateTime'
+        appId:
+          type: string
+        pageNumber:
+          format: int32
+          description: The number of page.
+          default: 0
+          type: integer
+        pageSize:
+          format: int32
+          description: The size of page
+          default: 100
+          type: integer
     UpdateAnnouncementRequest:
       type: object
       properties:
@@ -250,25 +297,6 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         appId:
           type: string
-    AnnouncementListItem:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        type:
-          $ref: '#/components/schemas/AnnouncementType'
-        priority:
-          $ref: '#/components/schemas/AnnouncementPriorityType'
-        status:
-          $ref: '#/components/schemas/AnnouncementStatus'
-        startDate:
-          $ref: '#/components/schemas/OffsetDateTime'
-        endDate:
-          $ref: '#/components/schemas/OffsetDateTime'
-        appId:
-          type: string
     AnnouncementPageResult:
       type: object
       properties:
@@ -288,7 +316,7 @@ components:
         stream:
           type: array
           items:
-            $ref: '#/components/schemas/AnnouncementListItem'
+            $ref: '#/components/schemas/Announcement'
     AnnouncementPriorityType:
       enum:
         - IMPORTANT
@@ -310,6 +338,38 @@ components:
       format: date-time
       type: string
       example: 2022-03-10T12:15:50-04:00
+    AnnouncementProblemResponse:
+      description: A Problem Details object (RFC 9457)
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+          description: An absolute URI that identifies the problem type
+          default: about:blank  # kept for backwards-compatibility, type will be mandatory in problem-v2
+        href:
+          type: string
+          format: uri
+          description: An absolute URI that, when dereferenced, provides human-readable documentation for the problem type (e.g. using HTML).
+        title:
+          type: string
+          description: A short summary of the problem type. Written in English and readable for engineers (usually not suited for non technical stakeholders and not localized).
+          example: Service Unavailable
+        status:
+          type: integer
+          format: int32
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          minimum: 400
+          maximum: 600
+          exclusiveMaximum: true
+          example: 400
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem
+        instance:
+          type: string
+          format: uri
+          description: An absolute URI that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.
     RestException:
       type: object
       properties:

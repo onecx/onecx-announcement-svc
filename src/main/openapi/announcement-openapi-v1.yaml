@@ -19,7 +19,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Announcement'
+              $ref: '#/components/schemas/SearchAnnouncementRequest'
       responses:
         "200":
           description: OK
@@ -51,7 +51,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnnouncementList'
+                $ref: '#/components/schemas/Announcement'
         "404":
           description: Not Found
           content:
@@ -106,25 +106,6 @@ components:
           format: date-time
           type: string
           example: 2022-03-10T12:15:50-04:00
-    AnnouncementList:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        appId:
-          type: string
-        type:
-          $ref: '#/components/schemas/AnnouncementType'
-        priority:
-          $ref: '#/components/schemas/AnnouncementPriorityType'
-        status:
-          $ref: '#/components/schemas/AnnouncementStatus'
-        startDate:
-          $ref: '#/components/schemas/OffsetDateTime'
-        endDate:
-          $ref: '#/components/schemas/OffsetDateTime'
     AnnouncementPageResult:
       description: PageResult  for Announcements
       type: object
@@ -145,6 +126,53 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Announcement'
+    SearchAnnouncementRequest:
+      type: object
+      properties:
+        creationDateFrom:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationDateTo:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationUser:
+          type: string
+        modificationDateFrom:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationDateTo:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationUser:
+          type: string
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        type:
+          $ref: '#/components/schemas/AnnouncementType'
+        priority:
+          $ref: '#/components/schemas/AnnouncementPriorityType'
+        status:
+          $ref: '#/components/schemas/AnnouncementStatus'
+        startDateFrom:
+          $ref: '#/components/schemas/OffsetDateTime'
+        startDateTo:
+          $ref: '#/components/schemas/OffsetDateTime'
+        endDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        endDateTo:
+          $ref: '#/components/schemas/OffsetDateTime'
+        appId:
+          type: string
+        pageNumber:
+          format: int32
+          description: The number of page.
+          default: 0
+          type: integer
+        pageSize:
+          format: int32
+          description: The size of page
+          default: 100
+          type: integer
     AnnouncementPriorityType:
       enum:
         - IMPORTANT
