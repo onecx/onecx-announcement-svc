@@ -57,7 +57,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestException'
+                $ref: '#/components/schemas/ProblemDetailResponse'
         "500":
           description: Internal Server Error
           content:
@@ -157,7 +157,7 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         startDateTo:
           $ref: '#/components/schemas/OffsetDateTime'
-        endDate:
+        endDateFrom:
           $ref: '#/components/schemas/OffsetDateTime'
         endDateTo:
           $ref: '#/components/schemas/OffsetDateTime'
@@ -217,6 +217,35 @@ components:
       type: object
       properties:
         parameter:
+          type: string
+        message:
+          type: string
+    ProblemDetailResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        detail:
+          type: string
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemDetailParam'
+        invalidParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemDetailInvalidParam'
+    ProblemDetailParam:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    ProblemDetailInvalidParam:
+      type: object
+      properties:
+        name:
           type: string
         message:
           type: string

@@ -16,10 +16,10 @@
             <column name="optlock" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="appId" type="VARCHAR(255)"/>
+            <column name="app_id" type="VARCHAR(255)"/>
             <column name="content" type="VARCHAR(255)"/>
-            <column name="startDate" type="TIMESTAMP WITHOUT TIME ZONE"/>
-            <column name="endDate" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="start_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="end_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="name" type="VARCHAR(255)"/>
             <column name="priority" type="VARCHAR(255)"/>
             <column name="status" type="VARCHAR(255)"/>
