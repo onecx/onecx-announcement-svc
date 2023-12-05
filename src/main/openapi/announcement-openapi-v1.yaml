@@ -27,12 +27,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AnnouncementPageResult'
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestException'
   /v1/applications/announcements/{id}:
     get:
       tags:
@@ -58,12 +52,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
-        "500":
-          description: Internal Server Error
+  /v1/applications:
+    delete:
+      tags:
+        - AnnouncementV1
+      summary: Delete announcement
+      operationId: deleteAnnouncementByCriteriaV1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteAnnouncementRequest'
+      responses:
+        "204":
+          description: No content
+        "400":
+          description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestException'
+                $ref: '#/components/schemas/ProblemDetailResponse'
 components:
   schemas:
     Announcement:
@@ -173,6 +182,13 @@ components:
           description: The size of page
           default: 100
           type: integer
+    DeleteAnnouncementRequest:
+      type: object
+      properties:
+        appIds:
+          type: array
+          items:
+            type: string
     AnnouncementPriorityType:
       enum:
         - IMPORTANT
@@ -194,32 +210,6 @@ components:
       format: date-time
       type: string
       example: 2022-03-10T12:15:50-04:00
-    RestException:
-      type: object
-      properties:
-        errorCode:
-          type: string
-        message:
-          type: string
-        parameters:
-          type: array
-          items:
-            type: object
-        namedParameters:
-          type: object
-          additionalProperties:
-            type: object
-        validations:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationConstraint'
-    ValidationConstraint:
-      type: object
-      properties:
-        parameter:
-          type: string
-        message:
-          type: string
     ProblemDetailResponse:
       type: object
       properties:

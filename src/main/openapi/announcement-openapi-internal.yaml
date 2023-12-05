@@ -35,12 +35,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestException'    
   /internal/announcements:
     post:
       tags:
@@ -72,12 +66,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestException'
   /internal/announcements/appIds:
     get:
       tags:
@@ -92,12 +80,6 @@ paths:
               schema:
                 type: array
                 items: {}
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestException'
   /internal/announcements/{id}:
     get:
       tags:
@@ -117,12 +99,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Announcement'
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestException'
     delete:
       tags:
         - AnnouncementInternal
@@ -137,12 +113,6 @@ paths:
       responses:
         "204":
           description: No content
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestException'
     put:
       tags:
         - AnnouncementInternal
@@ -172,12 +142,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestException'
 components:
   schemas:
     CreateAnnouncementRequest:
@@ -338,32 +302,6 @@ components:
       format: date-time
       type: string
       example: 2022-03-10T12:15:50-04:00
-    RestException:
-      type: object
-      properties:
-        errorCode:
-          type: string
-        message:
-          type: string
-        parameters:
-          type: array
-          items:
-            type: object
-        namedParameters:
-          type: object
-          additionalProperties:
-            type: object
-        validations:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationConstraint'
-    ValidationConstraint:
-      type: object
-      properties:
-        parameter:
-          type: string
-        message:
-          type: string
     ProblemDetailResponse:
       type: object
       properties:

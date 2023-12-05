@@ -8,11 +8,11 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
-import org.onecx.announcement.domain.enums.AnnouncementPriorityType;
-import org.onecx.announcement.domain.enums.AnnouncementStatus;
-import org.onecx.announcement.domain.enums.AnnouncementType;
 import org.tkit.quarkus.jpa.models.TraceableEntity;
 
+import gen.io.github.onecx.announcement.rs.internal.model.AnnouncementPriorityTypeDTO;
+import gen.io.github.onecx.announcement.rs.internal.model.AnnouncementStatusDTO;
+import gen.io.github.onecx.announcement.rs.internal.model.AnnouncementTypeDTO;
 import lombok.*;
 
 @Getter
@@ -25,15 +25,15 @@ public class Announcement extends TraceableEntity {
     private String title;
     private String content;
     @Enumerated(EnumType.STRING)
-    private AnnouncementType type;
+    private AnnouncementTypeDTO type;
     @Enumerated(EnumType.STRING)
-    private AnnouncementPriorityType priority;
+    private AnnouncementPriorityTypeDTO priority;
     @Enumerated(EnumType.STRING)
-    private AnnouncementStatus status;
-    @Column(name = "start_date")
+    private AnnouncementStatusDTO status;
+    @Column(name = "startDate")
     private LocalDateTime startDate;
-    @Column(name = "end_date")
+    @Column(name = "endDate")
     private LocalDateTime endDate;
-    @Column(name = "app_id")
+    @Column(name = "appId")
     private String appId;
 }
