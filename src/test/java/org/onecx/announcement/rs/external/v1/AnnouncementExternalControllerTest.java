@@ -17,12 +17,12 @@ import gen.io.github.onecx.announcement.v1.model.*;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class AnnouncementExternalControllerTest {
+class AnnouncementExternalControllerTest {
     String ANNOUNCEMENT_CONTROLLER_V1_ENDPOINT = "/v1/applications";
 
     @Test
     @WithDBData(value = { "ahm-testdata.xml" }, deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullySearchForOneResultWithId() throws ParseException {
+    void shouldSuccessfullySearchForOneResultWithId() throws ParseException {
         String fetchedId = "123";
         String creationUser = "Test User";
         var response = given()
@@ -40,26 +40,15 @@ public class AnnouncementExternalControllerTest {
 
     @Test
     @WithDBData(value = { "ahm-testdata.xml" }, deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullySearchForOneResultWithCriteriaV1() throws ParseException {
+    void shouldSuccessfullySearchForOneResultWithCriteriaV1() throws ParseException {
         String announcementId = "123";
         String creationUser = "Test User";
-        //      ("startDateFrom", "2009-12-30T14:55+00:00")
-        //                //    .queryParam("startDateTo", "2010-01-01T14:55+00:00")
-        //        String enddate = "2010-01-01T14:55:00+00:00";
-        //        String startdate = "2009-12-30T14:55:00+00:00";
-        //        //        String enddate = "2010-01-01 14:55:00";
-        //        //        String startdate = "2009-12-30 14:55:00";
-        //        String str = "2009-12-30T14:55:00Z";
-        //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        //        LocalDateTime startDateTime = LocalDateTime.parse(startdate, formatter);
-        //        LocalDateTime endDateTime = LocalDateTime.parse(enddate, formatter);
+        OffsetDateTime startDateFrom = OffsetDateTime.parse("2009-12-30T14:55:00+00:00");
+        OffsetDateTime startDateTo = OffsetDateTime.parse("2010-01-01T14:55:00+00:00");
 
         SearchAnnouncementRequestDTOV1 searchAnnouncementRequestDTOV1 = new SearchAnnouncementRequestDTOV1();
-        //searchAnnouncementRequestDTOV1.setStartDateTo(OffsetDateTime.of(startDateTime, (ZoneOffset.ofHours(0))));
-        //searchAnnouncementRequestDTOV1.setStartDateFrom(OffsetDateTime.of(endDateTime, ZoneOffset.ofHours(0)));
-        //        searchAnnouncementRequestDTOV1.setStartDateTo(OffsetDateTime.parse(startdate, DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-        //      searchAnnouncementRequestDTOV1.setStartDateFrom(OffsetDateTime.parse(enddate, DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-        searchAnnouncementRequestDTOV1.setId(announcementId);
+        searchAnnouncementRequestDTOV1.setStartDateFrom(startDateFrom);
+        searchAnnouncementRequestDTOV1.setStartDateTo(startDateTo);
 
         searchAnnouncementRequestDTOV1.setType(AnnouncementTypeDTOV1.EVENT);
         var response = given()
@@ -79,7 +68,7 @@ public class AnnouncementExternalControllerTest {
 
     @Test
     @WithDBData(value = "ahm-testdata.xml", deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullyFetchAllAnnouncementsV1() throws ParseException {
+    void shouldSuccessfullyFetchAllAnnouncementsV1() throws ParseException {
         SearchAnnouncementRequestDTOV1 searchAnnouncementRequestDTOV1 = new SearchAnnouncementRequestDTOV1();
         var response = given()
                 .when()
@@ -96,7 +85,7 @@ public class AnnouncementExternalControllerTest {
 
     @Test
     @WithDBData(value = "ahm-testdata.xml", deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullyFetchAnnouncementsWithPageSize10() throws ParseException {
+    void shouldSuccessfullyFetchAnnouncementsWithPageSize10() throws ParseException {
         int pageSize = 10;
         int pageNumber = 7;
         SearchAnnouncementRequestDTOV1 searchAnnouncementRequestDTOV1 = new SearchAnnouncementRequestDTOV1();
@@ -120,7 +109,7 @@ public class AnnouncementExternalControllerTest {
 
     @Test
     @WithDBData(value = "ahm-testdata.xml", deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullyFetchAnnouncementsWithPageSize100() throws ParseException {
+    void shouldSuccessfullyFetchAnnouncementsWithPageSize100() throws ParseException {
         int pageSize = 100;
         int pageNumber = 0;
         SearchAnnouncementRequestDTOV1 searchAnnouncementRequestDTOV1 = new SearchAnnouncementRequestDTOV1();
@@ -144,7 +133,7 @@ public class AnnouncementExternalControllerTest {
 
     @Test
     @WithDBData(value = { "ahm-testdata.xml" }, deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullyFetchAnnouncementsWithPageSize200() throws ParseException {
+    void shouldSuccessfullyFetchAnnouncementsWithPageSize200() throws ParseException {
         int pageSize = 200;
         int pageNumber = 1;
         SearchAnnouncementRequestDTOV1 searchAnnouncementRequestDTOV1 = new SearchAnnouncementRequestDTOV1();
@@ -168,7 +157,7 @@ public class AnnouncementExternalControllerTest {
 
     @Test
     @WithDBData(value = { "ahm-testdata.xml" }, deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullyFetchAnnouncementsWithPageSize500() throws ParseException {
+    void shouldSuccessfullyFetchAnnouncementsWithPageSize500() throws ParseException {
         int pageSize = 500;
         int pageNumber = 0;
         SearchAnnouncementRequestDTOV1 searchAnnouncementRequestDTOV1 = new SearchAnnouncementRequestDTOV1();
@@ -192,7 +181,7 @@ public class AnnouncementExternalControllerTest {
 
     @Test
     @WithDBData(value = { "ahm-testdata.xml" }, deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullyDeleteAnnouncementsWithAppIds() throws ParseException {
+    void shouldSuccessfullyDeleteAnnouncementsWithAppIds() throws ParseException {
         List<String> appIds = new ArrayList<>();
         appIds.add("support-tool-ui");
         DeleteAnnouncementRequestDTOV1 deleteAnnouncementRequestDTOV1 = new DeleteAnnouncementRequestDTOV1();

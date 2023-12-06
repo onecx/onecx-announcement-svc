@@ -40,10 +40,12 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
                     predicates.add(cb.or(predicateEqualAppId, predicateIsNull));
                 }
                 if (criteria.getStartDateFrom() != null) {
+                    log.info("criteria.getStartDateFrom() : " + criteria.getStartDateFrom().toLocalDateTime());
                     predicates.add(cb.greaterThanOrEqualTo(root.get(Announcement_.START_DATE),
                             criteria.getStartDateFrom().toLocalDateTime()));
                 }
                 if (criteria.getStartDateTo() != null) {
+                    log.info("criteria.getStartDateTo() : " + criteria.getStartDateTo().toLocalDateTime());
                     predicates.add(cb.lessThanOrEqualTo(root.get(Announcement_.START_DATE),
                             criteria.getStartDateTo().toLocalDateTime()));
                 }
@@ -100,10 +102,8 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             CriteriaDelete<Announcement> criteriaDelete = criteriaBuilder.createCriteriaDelete(Announcement.class);
             Root<Announcement> root = criteriaDelete.from(Announcement.class);
             criteriaDelete.where(criteriaBuilder.equal(root.get(Announcement_.APP_ID), appId));
-            em.getTransaction().begin();
             int rowsDeleted = em.createQuery(criteriaDelete).executeUpdate();
             log.info("Number of Announcements deleted: " + rowsDeleted);
-            em.getTransaction().commit();
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_DELETE_BY_CRITERIA, ex);
         }

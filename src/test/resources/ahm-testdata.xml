@@ -3,9 +3,9 @@
 <dataset>
 	<!-- Announcement -->
 	<Announcement guid="123" optlock="0" enddate="2022-02-05 06:01:00" startdate="2009-12-30 14:55:00" appid="support-tool-ui" content="some-content" priority="NORMAL" title="announcement_1" type="EVENT" creationdate="2022-12-30 06:01:00" modificationdate="2022-12-31 06:01:00" creationuser="Test User"/>
-	<Announcement guid="456" optlock="0" enddate="2022-02-05 06:01:00" startdate="2022-02-02 06:01:00" appid="" content="" priority="LOW" title="announcement_2" type="INFO"/>
-	<Announcement guid="789" optlock="0" enddate="2022-02-05 06:01:00" startdate="2022-02-02 06:01:00" appid="" content="" priority="LOW" title="announcement_3" type="INFO"/>
-	<Announcement guid="790" optlock="0" enddate="2022-02-05 06:01:00" startdate="2022-02-02 06:01:00" appid="" content="" priority="LOW" title="announcement_4" type="INFO"/>
+	<Announcement guid="456" optlock="0" enddate="2022-02-05 06:01:00" startdate="2022-02-02 06:01:00" appid="support-tool-ui" content="" priority="LOW" title="announcement_2" type="INFO"/>
+	<Announcement guid="789" optlock="0" enddate="2022-02-05 06:01:00" startdate="2022-02-02 06:01:00" appid="support-tool-ui" content="" priority="LOW" title="announcement_3" type="INFO"/>
+	<Announcement guid="790" optlock="0" enddate="2022-02-05 06:01:00" startdate="2022-02-02 06:01:00" appid="support-tool-ui" content="" priority="LOW" title="announcement_4" type="INFO"/>
 	<Announcement guid="791" optlock="0" enddate="2022-02-05 06:01:00" startdate="2022-02-02 06:01:00" appid="" content="" priority="LOW" title="announcement_5" type="INFO"/>
 	<Announcement guid="792" optlock="0" enddate="2022-02-05 06:01:00" startdate="2022-02-02 06:01:00" appid="" content="" priority="LOW" title="announcement_6" type="INFO"/>
 	<Announcement guid="793" optlock="0" enddate="2022-02-05 06:01:00" startdate="2022-02-02 06:01:00" appid="" content="" priority="LOW" title="announcement_7" type="INFO"/>

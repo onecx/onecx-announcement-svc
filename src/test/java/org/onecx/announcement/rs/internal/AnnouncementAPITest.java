@@ -13,24 +13,24 @@ import org.tkit.quarkus.test.WithDBData;
 
 import gen.io.github.onecx.announcement.rs.internal.model.*;
 import io.quarkus.test.junit.QuarkusTest;
+import lombok.extern.slf4j.Slf4j;
 
 @QuarkusTest
-public class AnnouncementAPITest {
+@Slf4j
+class AnnouncementAPITest {
     String ANNOUNCEMENT_ITEM_INTERNAL_ENDPOINT = "/internal/announcements";
 
     @Test
     @WithDBData(value = { "ahm-testdata.xml" }, deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullySearchForOneResultWithCriteria() throws ParseException {
+    void shouldSuccessfullySearchForOneResultWithCriteria() throws ParseException {
         String fetchedId = "123";
         SearchAnnouncementRequestDTO searchAnnouncementRequestDTO = new SearchAnnouncementRequestDTO();
+        OffsetDateTime startDateFrom = OffsetDateTime.parse("2009-12-30T14:55:00+00:00");
+        OffsetDateTime startDateTo = OffsetDateTime.parse("2010-01-01T14:55:00+00:00");
 
-        //        String enddate = "2010-01-01T14:55:00+00:00";
-        //        String startdate = "2009-12-30T14:55:00+00:00";
-        //2023-12-05T01:35:30.20912803+01:00
-        //        searchAnnouncementRequestDTO.setStartDateTo(OffsetDateTime.parse(startdate, DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-        //        searchAnnouncementRequestDTO.setStartDateFrom(OffsetDateTime.parse(enddate, DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        searchAnnouncementRequestDTO.setStartDateFrom(startDateFrom);
+        searchAnnouncementRequestDTO.setStartDateTo(startDateTo);
         searchAnnouncementRequestDTO.setType(AnnouncementTypeDTO.EVENT);
-        searchAnnouncementRequestDTO.setId(fetchedId);
 
         //         when
         var response = given()
@@ -49,7 +49,7 @@ public class AnnouncementAPITest {
 
     @Test
     @WithDBData(value = { "ahm-testdata.xml" }, deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullyFetchAllAnnouncements() throws ParseException {
+    void shouldSuccessfullyFetchAllAnnouncements() throws ParseException {
         //         when
         SearchAnnouncementRequestDTO searchAnnouncementRequestDTO = new SearchAnnouncementRequestDTO();
         var response = given()
@@ -67,7 +67,7 @@ public class AnnouncementAPITest {
 
     @Test
     @WithDBData(value = { "ahm-testdata.xml" }, deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullyDeleteAnnouncement() {
+    void shouldSuccessfullyDeleteAnnouncement() {
         String announcementId = "123";
         //         when
         var deleteResponse = given()
@@ -91,7 +91,7 @@ public class AnnouncementAPITest {
 
     @Test
     @WithDBData(value = { "ahm-testdata.xml" }, deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullyFetchAnnouncementWithId() throws ParseException {
+    void shouldSuccessfullyFetchAnnouncementWithId() throws ParseException {
         String announcementId = "123";
         //         when
         var response = given()
@@ -108,7 +108,7 @@ public class AnnouncementAPITest {
 
     @Test
     @WithDBData(value = { "ahm-testdata.xml" }, deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldCorrectlyCreateAnnouncement() {
+    void shouldCorrectlyCreateAnnouncement() {
         CreateAnnouncementRequestDTO announcementCreateDTO = new CreateAnnouncementRequestDTO();
         String appId = "support-tool-ui";
         String content = "Some content of the announcement";
@@ -137,7 +137,7 @@ public class AnnouncementAPITest {
 
     @Test
     @WithDBData(value = { "ahm-testdata.xml" }, deleteAfterTest = true, deleteBeforeInsert = true)
-    public void shouldSuccessfullyUpdateAnnouncement() throws ParseException {
+    void shouldSuccessfullyUpdateAnnouncement() throws ParseException {
         String announcementId = "123";
         UpdateAnnouncementRequestDTO updateAnnouncementRequestDTO = new UpdateAnnouncementRequestDTO();
         String appId = "ahm-ui";

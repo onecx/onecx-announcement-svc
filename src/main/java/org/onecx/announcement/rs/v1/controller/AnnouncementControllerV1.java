@@ -1,5 +1,8 @@
 package org.onecx.announcement.rs.v1.controller;
 
+import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
+import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
+
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -7,7 +10,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status.*;
 
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.onecx.announcement.domain.dao.AnnouncementDAO;
@@ -38,7 +40,7 @@ public class AnnouncementControllerV1 implements AnnouncementV1Api {
     public Response getAnnouncementByIdV1(String id) {
         Announcement announcement = announcementDAO.findById(id);
         if (announcement == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(NOT_FOUND).build();
         }
         AnnouncementDTOV1 announcementDto = announcementMapper.map(announcement);
         return Response.ok().entity(announcementDto).build();
@@ -48,7 +50,7 @@ public class AnnouncementControllerV1 implements AnnouncementV1Api {
     public Response getAnnouncementsByCriteriaV1(SearchAnnouncementRequestDTOV1 searchAnnouncementRequestDTOV1) {
         var results = announcementDAO.loadAnnouncementByCriteria(searchAnnouncementRequestDTOV1);
         if (results == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(NOT_FOUND).build();
         }
         AnnouncementPageResultDTOV1 announcementPageResultDTOV1 = announcementMapper.mapToPageResult(results);
         return Response.ok().entity(announcementPageResultDTOV1).build();
@@ -64,7 +66,7 @@ public class AnnouncementControllerV1 implements AnnouncementV1Api {
             return Response.noContent().build();
         } catch (DAOException e) {
             e.printStackTrace();
-            return Response.status(Response.Status.BAD_REQUEST)
+            return Response.status(BAD_REQUEST)
                     .entity(announcementMapper.exception(ErrorKeys.ERROR_DELETE_ANNOUNCEMENT_BY_CRITERIA.name(),
                             "Failed to delete announcements. Error: " + e.getMessage()))
                     .build();

@@ -1,5 +1,8 @@
 package org.onecx.announcement.rs.internal.controller;
 
+import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
+import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
+
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -27,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 @Path("/internal/announcements")
 public class ApplicationControllerInternal implements AnnouncementInternalApi {
-    public static final String ANNOUNCEMENT_WITH_GIVEN_ID_NOT_FOUND = "Announcement with given ID not found";
     @Inject
     AnnouncementMapper announcementMapper;
     @Inject
@@ -49,18 +51,19 @@ public class ApplicationControllerInternal implements AnnouncementInternalApi {
     @Override
     public Response deleteAnnouncementById(String id) {
         try {
-            Announcement acItem = announcementDAO.findById(id);
-            if (acItem != null) {
-                announcementDAO.delete(acItem);
+            Announcement announcement = announcementDAO.findById(id);
+            if (announcement != null) {
+                announcementDAO.deleteQueryById(id);
                 return Response.noContent().build();
             }
         } catch (DAOException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
+            e.printStackTrace();
+            return Response.status(BAD_REQUEST)
                     .entity(announcementMapper.exception(ErrorKeys.ERROR_DELETE_ANNOUNCEMENT_BY_CRITERIA.name(),
                             "Failed to delete announcements. Error: " + e.getMessage()))
                     .build();
         }
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(NOT_FOUND).build();
     }
 
     @Override
@@ -74,16 +77,17 @@ public class ApplicationControllerInternal implements AnnouncementInternalApi {
     public Response getAnnouncementById(String id) {
         Announcement fetchedAnnouncement = announcementDAO.findById(id);
         if (fetchedAnnouncement == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(NOT_FOUND).build();
         }
         return Response.ok(announcementMapper.map(fetchedAnnouncement)).build();
     }
 
     @Override
     public Response getAnnouncements(SearchAnnouncementRequestDTO searchAnnouncementRequestDTO) {
+        log.info("INSIDE SEARCH SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
         var results = announcementDAO.loadAnnouncementByCriteria(announcementMapper.mapCriteria(searchAnnouncementRequestDTO));
         if (results == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(NOT_FOUND).build();
         }
         AnnouncementPageResultDTO announcementPageResultDTO = announcementMapper.mapToPageResult(results);
         return Response.ok().entity(announcementPageResultDTO).build();
@@ -97,7 +101,7 @@ public class ApplicationControllerInternal implements AnnouncementInternalApi {
             Announcement updatedAnnouncement = announcementDAO.findById(id);
             return Response.ok(updatedAnnouncement).build();
         }
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(NOT_FOUND).build();
 
     }
 
