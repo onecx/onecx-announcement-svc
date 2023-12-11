@@ -14,4 +14,18 @@
 
     <ANNOUNCEMENT guid="a5" optlock="0" enddate="2022-02-05 06:01:00" startdate="2009-12-30 14:55:00" status="ACTIVE"
                   appid="app2" content="some-content" priority="NORMAL" title="title2" type="INFO" tenant_id="default"/>
+
+    <ANNOUNCEMENT guid="a3-100" optlock="0" enddate="2022-02-05 06:01:00" startdate="2009-12-30 14:55:00" status="ACTIVE"
+                  appid="app2" content="some-content" priority="NORMAL" title="title2" type="EVENT" tenant_id="tenant-100"/>
+    <ANNOUNCEMENT guid="a4-100" optlock="0" enddate="2022-02-05 06:01:00" startdate="2009-12-30 14:55:00" status="INACTIVE"
+                  appid="app2" content="some-content" priority="NORMAL" title="title2" type="EVENT" tenant_id="tenant-100"/>
+    <ANNOUNCEMENT guid="a5-100" optlock="0" enddate="2022-02-05 06:01:00" startdate="2009-12-30 14:55:00" status="ACTIVE"
+                  appid="app2" content="some-content" priority="NORMAL" title="title2" type="EVENT" tenant_id="tenant-100"/>
+
+    <ANNOUNCEMENT guid="a3-200" optlock="0" enddate="2022-02-05 06:01:00" startdate="2009-12-30 14:55:00" status="ACTIVE"
+                  appid="app2" content="some-content" priority="NORMAL" title="title2" type="EVENT" tenant_id="tenant-200"/>
+    <ANNOUNCEMENT guid="a4-200" optlock="0" enddate="2022-02-05 06:01:00" startdate="2009-12-30 14:55:00" status="INACTIVE"
+                  appid="app2" content="some-content" priority="NORMAL" title="title2" type="EVENT" tenant_id="tenant-200"/>
+    <ANNOUNCEMENT guid="a5-200" optlock="0" enddate="2022-02-05 06:01:00" startdate="2009-12-30 14:55:00" status="ACTIVE"
+                  appid="app2" content="some-content" priority="NORMAL" title="title2" type="INFO" tenant_id="tenant-200"/>
 </dataset>

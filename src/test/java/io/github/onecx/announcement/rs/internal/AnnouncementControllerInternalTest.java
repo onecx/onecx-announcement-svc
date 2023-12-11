@@ -229,4 +229,34 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         assertThat(dto).isNotNull();
         assertThat(dto.getAppIds()).isNotNull().asList().hasSize(2);
     }
+
+    @Test
+    void getAnnouncementsByCriteriaOrg200Test() {
+        AnnouncementSearchCriteriaDTO criteria = new AnnouncementSearchCriteriaDTO();
+        criteria.setAppId("app2");
+        criteria.status(AnnouncementStatusDTO.ACTIVE);
+        criteria.setPriority(AnnouncementPriorityTypeDTO.NORMAL);
+        criteria.setType(AnnouncementTypeDTO.EVENT);
+        criteria.setStartDateFrom(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
+        criteria.setStartDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
+        criteria.setEndDateFrom(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
+        criteria.setEndDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
+
+        var data = given()
+                .contentType(APPLICATION_JSON)
+                .header(APM_HEADER_PARAM, createToken("org2"))
+                .body(criteria)
+                .post("search")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract()
+                .as(AnnouncementPageResultDTO.class);
+
+        Assertions.assertThat(data).isNotNull();
+        Assertions.assertThat(data.getTotalElements()).isEqualTo(1);
+        Assertions.assertThat(data.getStream()).isNotNull().hasSize(1);
+        Assertions.assertThat(data.getStream().get(0)).isNotNull();
+        Assertions.assertThat(data.getStream().get(0).getId()).isEqualTo("a3-200");
+    }
 }

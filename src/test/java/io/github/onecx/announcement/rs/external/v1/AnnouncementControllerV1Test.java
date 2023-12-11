@@ -13,13 +13,14 @@ import org.tkit.quarkus.test.WithDBData;
 
 import gen.io.github.onecx.announcement.v1.model.*;
 import io.github.onecx.announcement.rs.v1.controller.AnnouncementControllerV1;
+import io.github.onecx.announcement.test.AbstractTest;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
 @TestHTTPEndpoint(AnnouncementControllerV1.class)
 @WithDBData(value = "data/test-v1.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
-class AnnouncementControllerV1Test {
+class AnnouncementControllerV1Test extends AbstractTest {
 
     @Test
     void getAnnouncementsByCriteriaAllTest() {
@@ -82,4 +83,31 @@ class AnnouncementControllerV1Test {
         assertThat(data.getDetail()).isEqualTo("getAnnouncementsByCriteria.announcementSearchCriteriaDTOV1: must not be null");
     }
 
+    @Test
+    void getAnnouncementsByCriteriaOrg1Test() {
+        AnnouncementSearchCriteriaDTOV1 criteria = new AnnouncementSearchCriteriaDTOV1();
+        criteria.setAppId("app2");
+        criteria.status(StatusDTOV1.ACTIVE);
+        criteria.setPriority(PriorityDTOV1.NORMAL);
+        criteria.setType(TypeDTOV1.EVENT);
+        criteria.setStartDateFrom(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
+        criteria.setStartDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
+        criteria.setEndDateFrom(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
+        criteria.setEndDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
+
+        var data = given()
+                .header(APM_HEADER_PARAM, createToken("org1"))
+                .contentType(APPLICATION_JSON)
+                .body(criteria)
+                .post()
+                .then()
+                .statusCode(OK.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract()
+                .as(AnnouncementPageResultDTOV1.class);
+
+        assertThat(data).isNotNull();
+        assertThat(data.getTotalElements()).isEqualTo(2);
+        assertThat(data.getStream()).isNotNull().hasSize(2);
+    }
 }
