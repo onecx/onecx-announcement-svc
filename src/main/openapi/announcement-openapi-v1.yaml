@@ -1,25 +1,25 @@
 openapi: "3.0.3"
 info:
-  title: onecx-announcement-svc-v1
+  title: onecx-announcement
   version: "1.0"
 servers:
-  - url: https://localhost:8080
+  - url: https://onecx-announcement-svc:8080
 tags:
-  - name: AnnouncementV1
+  - name: Announcement
     description: Announcement Management v1 RS API
 paths:
   /v1/applications/announcements/search:
     post:
       tags:
-        - AnnouncementV1
+        - Announcement
       summary: Get announcements
-      operationId: getAnnouncementsByCriteriaV1
+      operationId: getAnnouncementsByCriteria
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SearchAnnouncementRequest'
+              $ref: '#/components/schemas/AnnouncementSearchCriteria'
       responses:
         "200":
           description: OK
@@ -27,46 +27,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AnnouncementPageResult'
-  /v1/applications/announcements/{id}:
-    get:
-      tags:
-        - AnnouncementV1
-      summary: Retrieve announcement by Id
-      operationId: getAnnouncementByIdV1
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Announcement'
-        "404":
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetailResponse'
-  /v1/applications:
-    delete:
-      tags:
-        - AnnouncementV1
-      summary: Delete announcement
-      operationId: deleteAnnouncementByCriteriaV1
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DeleteAnnouncementRequest'
-      responses:
-        "204":
-          description: No content
         "400":
           description: Bad request
           content:
@@ -78,43 +38,14 @@ components:
     Announcement:
       type: object
       properties:
-        version:
-          format: int32
-          type: integer
-        creationDate:
-          format: date-time
-          type: string
-          example: 2022-03-10T12:15:50-04:00
-        creationUser:
-          type: string
-        modificationDate:
-          format: date-time
-          type: string
-          example: 2022-03-10T12:15:50-04:00
-        modificationUser:
-          type: string
-        id:
-          type: string
         title:
-          type: string
-        appId:
           type: string
         content:
           type: string
         type:
-          $ref: '#/components/schemas/AnnouncementType'
+          $ref: '#/components/schemas/Type'
         priority:
-          $ref: '#/components/schemas/AnnouncementPriorityType'
-        status:
-          $ref: '#/components/schemas/AnnouncementStatus'
-        startDate:
-          format: date-time
-          type: string
-          example: 2022-03-10T12:15:50-04:00
-        endDate:
-          format: date-time
-          type: string
-          example: 2022-03-10T12:15:50-04:00
+          $ref: '#/components/schemas/Priority'
     AnnouncementPageResult:
       description: PageResult  for Announcements
       type: object
@@ -135,33 +66,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Announcement'
-    SearchAnnouncementRequest:
+    AnnouncementSearchCriteria:
       type: object
       properties:
-        creationDateFrom:
-          $ref: '#/components/schemas/OffsetDateTime'
-        creationDateTo:
-          $ref: '#/components/schemas/OffsetDateTime'
-        creationUser:
-          type: string
-        modificationDateFrom:
-          $ref: '#/components/schemas/OffsetDateTime'
-        modificationDateTo:
-          $ref: '#/components/schemas/OffsetDateTime'
-        modificationUser:
-          type: string
-        id:
-          type: string
-        title:
-          type: string
-        content:
-          type: string
         type:
-          $ref: '#/components/schemas/AnnouncementType'
+          $ref: '#/components/schemas/Type'
         priority:
-          $ref: '#/components/schemas/AnnouncementPriorityType'
+          $ref: '#/components/schemas/Priority'
         status:
-          $ref: '#/components/schemas/AnnouncementStatus'
+          $ref: '#/components/schemas/Status'
         startDateFrom:
           $ref: '#/components/schemas/OffsetDateTime'
         startDateTo:
@@ -182,25 +95,18 @@ components:
           description: The size of page
           default: 100
           type: integer
-    DeleteAnnouncementRequest:
-      type: object
-      properties:
-        appIds:
-          type: array
-          items:
-            type: string
-    AnnouncementPriorityType:
+    Priority:
       enum:
         - IMPORTANT
         - NORMAL
         - LOW
       type: string
-    AnnouncementStatus:
+    Status:
       enum:
         - ACTIVE
         - INACTIVE
       type: string
-    AnnouncementType:
+    Type:
       enum:
         - EVENT
         - INFO

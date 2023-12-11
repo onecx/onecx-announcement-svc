@@ -1,43 +1,77 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>io.github.onecx</groupId>
     <artifactId>onecx-quarkus3-parent</artifactId>
-    <version>0.16.0</version>
+    <version>0.23.0</version>
   </parent>
 
-  <groupId>org.onecx</groupId>
   <artifactId>onecx-announcement-svc</artifactId>
   <version>999-SNAPSHOT</version>
-  <properties>
-    <compiler-plugin.version>3.11.0</compiler-plugin.version>
-    <maven.compiler.release>17</maven.compiler.release>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-    <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.5.1</quarkus.platform.version>
-    <skipITs>true</skipITs>
-    <surefire-plugin.version>3.1.2</surefire-plugin.version>
-  </properties>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>${quarkus.platform.group-id}</groupId>
-        <artifactId>${quarkus.platform.artifact-id}</artifactId>
-        <version>${quarkus.platform.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+
   <dependencies>
+    <dependency>
+      <groupId>io.github.onecx.quarkus</groupId>
+      <artifactId>onecx-tenant</artifactId>
+    </dependency>
+    <!-- 1000kit -->
+    <dependency>
+      <groupId>org.tkit.quarkus.lib</groupId>
+      <artifactId>tkit-quarkus-rest-context</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.tkit.quarkus.lib</groupId>
+      <artifactId>tkit-quarkus-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.tkit.quarkus.lib</groupId>
+      <artifactId>tkit-quarkus-jpa-tenant</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.tkit.quarkus.lib</groupId>
+      <artifactId>tkit-quarkus-log-cdi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.tkit.quarkus.lib</groupId>
+      <artifactId>tkit-quarkus-log-rs</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.tkit.quarkus.lib</groupId>
+      <artifactId>tkit-quarkus-log-json</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.tkit.quarkus.lib</groupId>
+      <artifactId>tkit-quarkus-rest</artifactId>
+    </dependency>
+
     <!-- QUARKUS -->
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-jdbc-postgresql</artifactId>
+      <artifactId>quarkus-arc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-liquibase</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.blagerweij</groupId>
+      <artifactId>liquibase-sessionlock</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-health</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-micrometer-registry-prometheus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-orm</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -49,11 +83,11 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-hibernate-orm</artifactId>
+      <artifactId>quarkus-jdbc-postgresql</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-jwt</artifactId>
+      <artifactId>quarkus-smallrye-context-propagation</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -61,81 +95,46 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-flyway</artifactId>
+      <artifactId>quarkus-hibernate-validator</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-rest-client-reactive</artifactId>
+      <artifactId>quarkus-opentelemetry</artifactId>
     </dependency>
-    <!-- TKIT-QUARKUS-LIBS -->
-    <dependency>
-      <groupId>org.tkit.quarkus.lib</groupId>
-      <artifactId>tkit-quarkus-rest</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.tkit.quarkus.lib</groupId>
-      <artifactId>tkit-quarkus-log-cdi</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.tkit.quarkus.lib</groupId>
-      <artifactId>tkit-quarkus-jpa</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.tkit.quarkus.lib</groupId>
-      <artifactId>tkit-quarkus-log-rs</artifactId>
-    </dependency>
+
     <!-- OTHER -->
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-jpamodelgen</artifactId>
-      <version>5.5.6</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mapstruct</groupId>
-      <artifactId>mapstruct</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.mapstruct</groupId>
-      <artifactId>mapstruct-processor</artifactId>
-      <version>1.5.0.Final</version>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-health</artifactId>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
     </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-hibernate-validator</artifactId>
-    </dependency>
-    <!-- TEST SCOPED -->
-    <dependency>
-      <groupId>org.tkit.quarkus.lib</groupId>
-      <artifactId>tkit-quarkus-test-db-import</artifactId>
-      <!-- <version>${org.tkit.quarkus.lib.test-db-import.version}</version> -->
-      <scope>test</scope>
-    </dependency>
+
+    <!-- TEST -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5-mockito</artifactId>
       <scope>test</scope>
-      <!-- <version>${org.assertj.version}</version> -->
     </dependency>
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.tkit.quarkus.lib</groupId>
+      <artifactId>tkit-quarkus-test-db-import</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
@@ -188,26 +187,13 @@
               <apiPackage>gen.io.github.onecx.announcement.v1</apiPackage>
               <modelPackage>gen.io.github.onecx.announcement.v1.model</modelPackage>
               <modelNameSuffix>DTOV1</modelNameSuffix>
+              <apiNameSuffix>V1Api</apiNameSuffix>
               <skipValidateSpec>true</skipValidateSpec>
             </configuration>
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>${quarkus.platform.group-id}</groupId>
-        <artifactId>quarkus-maven-plugin</artifactId>
-        <version>${quarkus.platform.version}</version>
-        <extensions>true</extensions>
-        <executions>
-          <execution>
-            <goals>
-              <goal>build</goal>
-              <goal>generate-code</goal>
-              <goal>generate-code-tests</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
+
 </project>
