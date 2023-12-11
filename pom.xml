@@ -88,7 +88,7 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-jpamodelgen</artifactId>
-      <version>5.5.6</version>
+      <version>5.6.15.Final</version>
     </dependency>
     <dependency>
       <groupId>org.mapstruct</groupId>
