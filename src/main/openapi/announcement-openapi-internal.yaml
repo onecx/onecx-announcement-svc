@@ -19,7 +19,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SearchAnnouncementRequest'
+              $ref: '#/components/schemas/AnnouncementSearchCriteria'
       responses:
         "200":
           description: OK
@@ -39,8 +39,8 @@ paths:
     post:
       tags:
         - AnnouncementInternal
-      summary: Add announcement
-      operationId: addAnnouncement
+      summary: Create announcement
+      operationId: createAnnouncement
       requestBody:
         required: true
         content:
@@ -78,8 +78,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items: {}
+                $ref: '#/components/schemas/AnnouncementApps'
   /internal/announcements/{id}:
     get:
       tags:
@@ -125,6 +124,7 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -144,8 +144,18 @@ paths:
                 $ref: '#/components/schemas/ProblemDetailResponse'
 components:
   schemas:
+    AnnouncementApps:
+      type: object
+      properties:
+        appIds:
+          type: array
+          items:
+            type: string
     CreateAnnouncementRequest:
       type: object
+      required:
+        - title
+        - content
       properties:
         title:
           type: string
@@ -163,23 +173,9 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         appId:
           type: string
-    SearchAnnouncementRequest:
+    AnnouncementSearchCriteria:
       type: object
       properties:
-        creationDateFrom:
-          $ref: '#/components/schemas/OffsetDateTime'
-        creationDateTo:
-          $ref: '#/components/schemas/OffsetDateTime'
-        creationUser:
-          type: string
-        modificationDateFrom:
-          $ref: '#/components/schemas/OffsetDateTime'
-        modificationDateTo:
-          $ref: '#/components/schemas/OffsetDateTime'
-        modificationUser:
-          type: string
-        id:
-          type: string
         title:
           type: string
         content:
@@ -212,6 +208,9 @@ components:
           type: integer
     UpdateAnnouncementRequest:
       type: object
+      required:
+        - title
+        - content
       properties:
         title:
           type: string
@@ -232,7 +231,7 @@ components:
     Announcement:
       type: object
       properties:
-        version:
+        modificationCount:
           format: int32
           type: integer
         creationDate:

@@ -14,6 +14,10 @@
   <version>999-SNAPSHOT</version>
 
   <dependencies>
+    <dependency>
+      <groupId>io.github.onecx.quarkus</groupId>
+      <artifactId>onecx-tenant</artifactId>
+    </dependency>
     <!-- 1000kit -->
     <dependency>
       <groupId>org.tkit.quarkus.lib</groupId>
@@ -22,6 +26,10 @@
     <dependency>
       <groupId>org.tkit.quarkus.lib</groupId>
       <artifactId>tkit-quarkus-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.tkit.quarkus.lib</groupId>
+      <artifactId>tkit-quarkus-jpa-tenant</artifactId>
     </dependency>
     <dependency>
       <groupId>org.tkit.quarkus.lib</groupId>
