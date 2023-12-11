@@ -18,7 +18,7 @@ import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
 @TestHTTPEndpoint(AnnouncementControllerInternal.class)
-public class AnnouncementControllerInternalExceptionTest extends AbstractTest {
+class AnnouncementControllerInternalExceptionTest extends AbstractTest {
 
     @InjectMock
     AnnouncementDAO dao;
