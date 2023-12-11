@@ -1,19 +1,19 @@
 openapi: "3.0.3"
 info:
-  title: onecx-announcement-svc-v1
+  title: onecx-announcement
   version: "1.0"
 servers:
-  - url: https://localhost:8080
+  - url: https://onecx-announcement-svc:8080
 tags:
-  - name: AnnouncementV1
+  - name: Announcement
     description: Announcement Management v1 RS API
 paths:
   /v1/applications/announcements/search:
     post:
       tags:
-        - AnnouncementV1
+        - Announcement
       summary: Get announcements
-      operationId: getAnnouncementsByCriteriaV1
+      operationId: getAnnouncementsByCriteria
       requestBody:
         required: true
         content:
@@ -30,9 +30,9 @@ paths:
   /v1/applications/announcements/{id}:
     get:
       tags:
-        - AnnouncementV1
+        - Announcement
       summary: Retrieve announcement by Id
-      operationId: getAnnouncementByIdV1
+      operationId: getAnnouncementById
       parameters:
         - name: id
           in: path
@@ -55,9 +55,9 @@ paths:
   /v1/applications:
     delete:
       tags:
-        - AnnouncementV1
+        - Announcement
       summary: Delete announcement
-      operationId: deleteAnnouncementByCriteriaV1
+      operationId: deleteAnnouncementByCriteria
       requestBody:
         required: true
         content:

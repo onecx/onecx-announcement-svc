@@ -3,7 +3,7 @@ info:
   title: onecx-announcement-svc
   version: "1.0"
 servers:
-  - url: https://localhost:8080
+  - url: https://onecx-announcement-svc:8080
 tags:
   - name: AnnouncementInternal
     description: Execute Announcement CRUD operations
