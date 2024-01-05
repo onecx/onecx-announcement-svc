@@ -1,5 +1,5 @@
 app:
-  name: bff
+  name: svc
   image:
     repository: "onecx/onecx-announcement-svc"
   db:
