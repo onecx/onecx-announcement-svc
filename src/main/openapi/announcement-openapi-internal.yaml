@@ -155,7 +155,7 @@ components:
       type: object
       required:
         - title
-        - content
+        - startDate
       properties:
         title:
           type: string
@@ -210,7 +210,7 @@ components:
       type: object
       required:
         - title
-        - content
+        - startDate
       properties:
         title:
           type: string
