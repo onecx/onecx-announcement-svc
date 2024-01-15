@@ -73,12 +73,12 @@ class AnnouncementControllerInternalTest extends AbstractTest {
     @Test
     void createAnnouncementTest() {
 
-        // create product
+        // create announcement
         var createDto = new CreateAnnouncementRequestDTO();
 
         createDto.setAppId("app0");
-        createDto.setContent("test01");
         createDto.setTitle("basePath");
+        createDto.setStartDate(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
 
         var dto = given()
                 .when()
@@ -93,8 +93,9 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         assertThat(dto).isNotNull();
         assertThat(dto.getAppId()).isNotNull().isEqualTo(createDto.getAppId());
         assertThat(dto.getTitle()).isNotNull().isEqualTo(createDto.getTitle());
+        assertThat(dto.getStartDate()).isNotNull().isEqualTo(createDto.getStartDate());
 
-        // create theme without body
+        // create announcement without body
         var exception = given()
                 .when()
                 .contentType(APPLICATION_JSON)
@@ -106,7 +107,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         assertThat(exception.getErrorCode()).isEqualTo(AnnouncementMapper.ErrorKeys.CONSTRAINT_VIOLATIONS.name());
         assertThat(exception.getDetail()).isEqualTo("createAnnouncement.createAnnouncementRequestDTO: must not be null");
 
-        // create theme with existing name
+        // create announcement with existing name
         dto = given().when()
                 .contentType(APPLICATION_JSON)
                 .body(createDto)
@@ -165,9 +166,11 @@ class AnnouncementControllerInternalTest extends AbstractTest {
 
     @Test
     void updateAnnouncementTest() {
+
         var updateDto = new UpdateAnnouncementRequestDTO();
+
         updateDto.setTitle("test01");
-        updateDto.setContent("0.0.0");
+        updateDto.setStartDate(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
 
         given()
                 .contentType(APPLICATION_JSON)
@@ -195,6 +198,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
 
         assertThat(dto).isNotNull();
         assertThat(dto.getTitle()).isEqualTo(updateDto.getTitle());
+        assertThat(dto.getStartDate()).isEqualTo(updateDto.getStartDate());
     }
 
     @Test
