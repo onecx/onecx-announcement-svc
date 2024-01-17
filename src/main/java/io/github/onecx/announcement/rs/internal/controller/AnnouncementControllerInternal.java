@@ -81,7 +81,7 @@ public class AnnouncementControllerInternal implements AnnouncementInternalApi {
 
         mapper.update(item, updateAnnouncementRequestDTO);
         item = dao.update(item);
-        return Response.ok(item).build();
+        return Response.ok(mapper.map(item)).build();
     }
 
     @ServerExceptionMapper
