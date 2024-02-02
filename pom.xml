@@ -5,9 +5,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.github.onecx</groupId>
+    <groupId>org.tkit.onecx</groupId>
     <artifactId>onecx-quarkus3-parent</artifactId>
-    <version>0.25.0</version>
+    <version>0.31.0</version>
   </parent>
 
   <artifactId>onecx-announcement-svc</artifactId>
@@ -15,7 +15,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>io.github.onecx.quarkus</groupId>
+      <groupId>org.tkit.onecx.quarkus</groupId>
       <artifactId>onecx-tenant</artifactId>
     </dependency>
     <!-- 1000kit -->
@@ -173,8 +173,8 @@
             </goals>
             <configuration>
               <inputSpec>src/main/openapi/announcement-openapi-internal.yaml</inputSpec>
-              <apiPackage>gen.io.github.onecx.announcement.rs.internal</apiPackage>
-              <modelPackage>gen.io.github.onecx.announcement.rs.internal.model</modelPackage>
+              <apiPackage>gen.org.tkit.onecx.announcement.rs.internal</apiPackage>
+              <modelPackage>gen.org.tkit.onecx.announcement.rs.internal.model</modelPackage>
             </configuration>
           </execution>
           <execution>
@@ -184,8 +184,8 @@
             </goals>
             <configuration>
               <inputSpec>src/main/openapi/announcement-openapi-v1.yaml</inputSpec>
-              <apiPackage>gen.io.github.onecx.announcement.v1</apiPackage>
-              <modelPackage>gen.io.github.onecx.announcement.v1.model</modelPackage>
+              <apiPackage>gen.org.tkit.onecx.announcement.v1</apiPackage>
+              <modelPackage>gen.org.tkit.onecx.announcement.v1.model</modelPackage>
               <modelNameSuffix>DTOV1</modelNameSuffix>
               <apiNameSuffix>V1Api</apiNameSuffix>
               <skipValidateSpec>true</skipValidateSpec>
