@@ -69,6 +69,8 @@ components:
     AnnouncementSearchCriteria:
       type: object
       properties:
+        title:
+          type: string
         type:
           $ref: '#/components/schemas/Type'
         priority:
