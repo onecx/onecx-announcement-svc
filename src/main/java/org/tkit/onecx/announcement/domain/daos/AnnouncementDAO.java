@@ -51,7 +51,8 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             List<Predicate> predicates = new ArrayList<>();
             if (criteria.getTitle() != null && !criteria.getTitle().isBlank()) {
                 predicates.add(
-                        QueryCriteriaUtil.createSearchStringPredicate(cb, root.get(Announcement_.TITLE), criteria.getTitle()));
+                        QueryCriteriaUtil.createSearchStringPredicate(cb, root.get(Announcement_.TITLE),
+                                criteria.getTitle().concat("*")));
             }
             if (criteria.getStatus() != null) {
                 predicates.add(root.get(Announcement_.STATUS).in(criteria.getStatus()));
