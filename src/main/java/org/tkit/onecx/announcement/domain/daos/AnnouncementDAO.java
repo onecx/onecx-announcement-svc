@@ -17,6 +17,7 @@ import org.tkit.quarkus.jpa.daos.PageResult;
 import org.tkit.quarkus.jpa.exceptions.DAOException;
 import org.tkit.quarkus.jpa.models.AbstractTraceableEntity_;
 import org.tkit.quarkus.jpa.models.TraceableEntity_;
+import org.tkit.quarkus.jpa.utils.QueryCriteriaUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,6 +49,10 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             cq.select(root).distinct(true);
 
             List<Predicate> predicates = new ArrayList<>();
+            if (criteria.getTitle() != null && !criteria.getTitle().isBlank()) {
+                predicates.add(
+                        QueryCriteriaUtil.createSearchStringPredicate(cb, root.get(Announcement_.TITLE), criteria.getTitle()));
+            }
             if (criteria.getStatus() != null) {
                 predicates.add(root.get(Announcement_.STATUS).in(criteria.getStatus()));
             }

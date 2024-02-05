@@ -15,6 +15,8 @@ import lombok.Setter;
 @RegisterForReflection
 public class AnnouncementSearchCriteria {
 
+    private @Valid String title;
+
     private Announcement.Type type;
 
     private Announcement.Priority priority;

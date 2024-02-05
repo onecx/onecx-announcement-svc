@@ -21,6 +21,7 @@ import gen.org.tkit.onecx.announcement.v1.model.*;
 @Mapper(uses = OffsetDateTimeMapper.class)
 public interface AnnouncementMapperV1 {
 
+    @Mapping(target = "title", ignore = true)
     AnnouncementSearchCriteria map(AnnouncementSearchCriteriaDTOV1 dto);
 
     AnnouncementDTOV1 map(Announcement data);
