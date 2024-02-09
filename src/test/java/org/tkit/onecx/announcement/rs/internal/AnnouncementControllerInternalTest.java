@@ -171,6 +171,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
 
         updateDto.setTitle("test01");
         updateDto.setStartDate(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
+        updateDto.setModificationCount(0);
 
         given()
                 .contentType(APPLICATION_JSON)
@@ -195,6 +196,14 @@ class AnnouncementControllerInternalTest extends AbstractTest {
                 .contentType(APPLICATION_JSON)
                 .extract()
                 .body().as(AnnouncementDTO.class);
+
+        // update theme with wrong modificationCount
+        given()
+                .contentType(APPLICATION_JSON)
+                .body(updateDto)
+                .when()
+                .put("a1")
+                .then().statusCode(BAD_REQUEST.getStatusCode());
 
         assertThat(dto).isNotNull();
         assertThat(dto.getTitle()).isEqualTo(updateDto.getTitle());

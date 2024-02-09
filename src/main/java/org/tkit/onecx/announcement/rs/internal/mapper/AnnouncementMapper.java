@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;
@@ -16,6 +17,7 @@ import org.mapstruct.MappingTarget;
 import org.tkit.onecx.announcement.domain.criteria.AnnouncementSearchCriteria;
 import org.tkit.onecx.announcement.domain.models.Announcement;
 import org.tkit.quarkus.jpa.daos.PageResult;
+import org.tkit.quarkus.log.cdi.LogService;
 import org.tkit.quarkus.rs.mappers.OffsetDateTimeMapper;
 
 import gen.org.tkit.onecx.announcement.rs.internal.model.*;
@@ -54,7 +56,6 @@ public interface AnnouncementMapper {
     @Mapping(target = "creationUser", ignore = true)
     @Mapping(target = "modificationUser", ignore = true)
     @Mapping(target = "controlTraceabilityManual", ignore = true)
-    @Mapping(target = "modificationCount", ignore = true)
     @Mapping(target = "persisted", ignore = true)
     @Mapping(target = "tenantId", ignore = true)
     void update(@MappingTarget Announcement announcement, UpdateAnnouncementRequestDTO dto);
@@ -71,6 +72,12 @@ public interface AnnouncementMapper {
     default RestResponse<ProblemDetailResponseDTO> constraint(ConstraintViolationException ex) {
         var dto = exception(ErrorKeys.CONSTRAINT_VIOLATIONS.name(), ex.getMessage());
         dto.setInvalidParams(createErrorValidationResponse(ex.getConstraintViolations()));
+        return RestResponse.status(Response.Status.BAD_REQUEST, dto);
+    }
+
+    @LogService(log = false)
+    default RestResponse<ProblemDetailResponseDTO> optimisticLock(OptimisticLockException ex) {
+        var dto = exception(ErrorKeys.OPTIMISTIC_LOCK.name(), ex.getMessage());
         return RestResponse.status(Response.Status.BAD_REQUEST, dto);
     }
 
@@ -100,6 +107,7 @@ public interface AnnouncementMapper {
     }
 
     enum ErrorKeys {
-        CONSTRAINT_VIOLATIONS
+        CONSTRAINT_VIOLATIONS,
+        OPTIMISTIC_LOCK
     }
 }
