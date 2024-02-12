@@ -21,6 +21,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="appid" type="VARCHAR(255)"/>
+            <column name="workspaceName" type="VARCHAR(255)"/>
             <column name="content" type="VARCHAR(255)"/>
             <column name="creationuser" type="VARCHAR(255)"/>
             <column name="modificationuser" type="VARCHAR(255)"/>

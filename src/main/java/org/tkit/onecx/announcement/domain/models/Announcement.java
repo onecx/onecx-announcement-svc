@@ -51,6 +51,9 @@ public class Announcement extends TraceableEntity {
     @Column(name = "appId")
     private String appId;
 
+    @Column(name = "workspaceName")
+    private String workspaceName;
+
     public enum Type {
         EVENT,
         INFO,

@@ -54,6 +54,9 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             if (criteria.getAppId() != null) {
                 predicates.add(cb.equal(root.get(Announcement_.APP_ID), criteria.getAppId()));
             }
+            if (criteria.getWorkspaceName() != null) {
+                predicates.add(cb.equal(root.get(Announcement_.WORKSPACE_NAME), criteria.getWorkspaceName()));
+            }
             if (criteria.getStartDateFrom() != null) {
                 predicates.add(cb.greaterThanOrEqualTo(root.get(Announcement_.START_DATE),
                         criteria.getStartDateFrom().toLocalDateTime()));
@@ -105,11 +108,26 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
         }
     }
 
+    public List<String> findWorkspacesWithAnnouncements() {
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Tuple> cq = cb.createTupleQuery();
+            Root<Announcement> root = cq.from(Announcement.class);
+            cq.multiselect(root.get(Announcement_.WORKSPACE_NAME));
+            cq.distinct(true);
+            List<Tuple> tupleResult = getEntityManager().createQuery(cq).getResultList();
+            return tupleResult.stream().map(t -> (String) t.get(0)).toList();
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_FIND_WORKSPACES_WITH_ANNOUNCEMENTS, ex);
+        }
+    }
+
     public enum ErrorKeys {
 
         FIND_ENTITY_BY_ID_FAILED,
         ERROR_LOAD_ANNOUNCEMENT_BY_CRITERIA,
-        ERROR_FIND_APPLICATIONS_WITH_ANNOUNCEMENTS
+        ERROR_FIND_APPLICATIONS_WITH_ANNOUNCEMENTS,
+        ERROR_FIND_WORKSPACES_WITH_ANNOUNCEMENTS
     }
 
 }

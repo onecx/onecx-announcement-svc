@@ -36,6 +36,8 @@ class AnnouncementDAOTest extends AbstractTest {
                 AnnouncementDAO.ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_ANNOUNCEMENTS);
         methodExceptionTests(() -> dao.loadAnnouncementByCriteria(null),
                 AnnouncementDAO.ErrorKeys.ERROR_LOAD_ANNOUNCEMENT_BY_CRITERIA);
+        methodExceptionTests(() -> dao.findWorkspacesWithAnnouncements(),
+                AnnouncementDAO.ErrorKeys.ERROR_FIND_WORKSPACES_WITH_ANNOUNCEMENTS);
     }
 
     void methodExceptionTests(Executable fn, Enum<?> key) {
