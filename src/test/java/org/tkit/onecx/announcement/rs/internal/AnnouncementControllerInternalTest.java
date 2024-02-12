@@ -247,6 +247,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
     void getAnnouncementsByCriteriaOrg200Test() {
         AnnouncementSearchCriteriaDTO criteria = new AnnouncementSearchCriteriaDTO();
         criteria.setAppId("app2");
+        criteria.setWorkspaceName("workspace2");
         criteria.status(AnnouncementStatusDTO.ACTIVE);
         criteria.setPriority(AnnouncementPriorityTypeDTO.NORMAL);
         criteria.setType(AnnouncementTypeDTO.EVENT);

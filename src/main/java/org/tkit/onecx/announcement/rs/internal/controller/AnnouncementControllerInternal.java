@@ -51,8 +51,9 @@ public class AnnouncementControllerInternal implements AnnouncementInternalApi {
     @Override
 
     public Response getAllAppsWithAnnouncements() {
-        var items = dao.findApplicationsWithAnnouncements();
-        var results = mapper.map(items);
+        var appIds = dao.findApplicationsWithAnnouncements();
+        var workspaceNames = dao.findWorkspacesWithAnnouncements();
+        var results = mapper.map(appIds, workspaceNames);
         return Response.ok(results).build();
     }
 

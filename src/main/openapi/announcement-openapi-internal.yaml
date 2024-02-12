@@ -151,6 +151,10 @@ components:
           type: array
           items:
             type: string
+        workspaceNames:
+          type: array
+          items:
+            type: string
     CreateAnnouncementRequest:
       type: object
       required:
@@ -172,6 +176,8 @@ components:
         endDate:
           $ref: '#/components/schemas/OffsetDateTime'
         appId:
+          type: string
+        workspaceName:
           type: string
     AnnouncementSearchCriteria:
       type: object
@@ -195,6 +201,8 @@ components:
         endDateTo:
           $ref: '#/components/schemas/OffsetDateTime'
         appId:
+          type: string
+        workspaceName:
           type: string
         pageNumber:
           format: int32
@@ -232,6 +240,8 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         appId:
           type: string
+        workspaceName:
+          type: string
     Announcement:
       type: object
       properties:
@@ -263,6 +273,8 @@ components:
         endDate:
           $ref: '#/components/schemas/OffsetDateTime'
         appId:
+          type: string
+        workspaceName:
           type: string
     AnnouncementPageResult:
       type: object

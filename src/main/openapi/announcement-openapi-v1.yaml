@@ -85,6 +85,8 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         appId:
           type: string
+        workspaceName:
+          type: string
         pageNumber:
           format: int32
           description: The number of page.
