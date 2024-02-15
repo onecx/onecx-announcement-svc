@@ -2,6 +2,7 @@ package org.tkit.onecx.announcement.domain.daos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
@@ -102,7 +103,7 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             cq.multiselect(root.get(Announcement_.APP_ID));
             cq.distinct(true);
             List<Tuple> tupleResult = getEntityManager().createQuery(cq).getResultList();
-            return tupleResult.stream().map(t -> (String) t.get(0)).toList();
+            return tupleResult.stream().map(t -> (String) t.get(0)).toList().stream().filter(Objects::nonNull).toList();
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_ANNOUNCEMENTS, ex);
         }
@@ -116,7 +117,7 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             cq.multiselect(root.get(Announcement_.WORKSPACE_NAME));
             cq.distinct(true);
             List<Tuple> tupleResult = getEntityManager().createQuery(cq).getResultList();
-            return tupleResult.stream().map(t -> (String) t.get(0)).toList();
+            return tupleResult.stream().map(t -> (String) t.get(0)).toList().stream().filter(Objects::nonNull).toList();
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_FIND_WORKSPACES_WITH_ANNOUNCEMENTS, ex);
         }
