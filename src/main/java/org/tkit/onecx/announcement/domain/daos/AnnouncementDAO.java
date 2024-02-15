@@ -2,11 +2,9 @@ package org.tkit.onecx.announcement.domain.daos;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.Tuple;
 import jakarta.persistence.criteria.*;
 
 import org.tkit.onecx.announcement.domain.criteria.AnnouncementSearchCriteria;
