@@ -36,4 +36,6 @@ public class AnnouncementSearchCriteria {
     private @Valid Integer pageSize = 100;
 
     private @Valid String workspaceName;
+
+    private String title;
 }

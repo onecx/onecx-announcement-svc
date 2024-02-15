@@ -16,6 +16,7 @@ import org.tkit.quarkus.jpa.daos.PageResult;
 import org.tkit.quarkus.jpa.exceptions.DAOException;
 import org.tkit.quarkus.jpa.models.AbstractTraceableEntity_;
 import org.tkit.quarkus.jpa.models.TraceableEntity_;
+import org.tkit.quarkus.jpa.utils.QueryCriteriaUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -74,12 +75,13 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             }
             if (criteria.getPriority() != null) {
                 predicates.add(root.get(Announcement_.PRIORITY).in(criteria.getPriority()));
-
             }
+
             if (criteria.getType() != null) {
                 predicates.add(root.get(Announcement_.TYPE).in(criteria.getType()));
-
             }
+            QueryCriteriaUtil.addSearchStringPredicate(predicates, cb, root.get(Announcement_.TITLE), criteria.getTitle());
+
             if (!predicates.isEmpty()) {
                 cq.where(cb.and(predicates.toArray(new Predicate[0])));
             }
@@ -99,6 +101,7 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             CriteriaQuery<String> cq = cb.createQuery(String.class);
             Root<Announcement> root = cq.from(Announcement.class);
             cq.select(root.get(Announcement_.APP_ID)).distinct(true);
+            cq.where(root.get(Announcement_.APP_ID).isNotNull());
             return getEntityManager().createQuery(cq).getResultList();
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_ANNOUNCEMENTS, ex);
@@ -111,6 +114,7 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             CriteriaQuery<String> cq = cb.createQuery(String.class);
             Root<Announcement> root = cq.from(Announcement.class);
             cq.select(root.get(Announcement_.WORKSPACE_NAME)).distinct(true);
+            cq.where(root.get(Announcement_.WORKSPACE_NAME).isNotNull());
             return getEntityManager().createQuery(cq).getResultList();
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_FIND_WORKSPACES_WITH_ANNOUNCEMENTS, ex);
