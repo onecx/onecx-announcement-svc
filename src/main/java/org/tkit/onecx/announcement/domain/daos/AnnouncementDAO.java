@@ -5,7 +5,6 @@ import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.Tuple;
 import jakarta.persistence.criteria.*;
 
 import org.tkit.onecx.announcement.domain.criteria.AnnouncementSearchCriteria;
@@ -97,12 +96,10 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
     public List<String> findApplicationsWithAnnouncements() {
         try {
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-            CriteriaQuery<Tuple> cq = cb.createTupleQuery();
+            CriteriaQuery<String> cq = cb.createQuery(String.class);
             Root<Announcement> root = cq.from(Announcement.class);
-            cq.multiselect(root.get(Announcement_.APP_ID));
-            cq.distinct(true);
-            List<Tuple> tupleResult = getEntityManager().createQuery(cq).getResultList();
-            return tupleResult.stream().map(t -> (String) t.get(0)).toList();
+            cq.select(root.get(Announcement_.APP_ID)).distinct(true);
+            return getEntityManager().createQuery(cq).getResultList();
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_ANNOUNCEMENTS, ex);
         }
@@ -111,12 +108,10 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
     public List<String> findWorkspacesWithAnnouncements() {
         try {
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-            CriteriaQuery<Tuple> cq = cb.createTupleQuery();
+            CriteriaQuery<String> cq = cb.createQuery(String.class);
             Root<Announcement> root = cq.from(Announcement.class);
-            cq.multiselect(root.get(Announcement_.WORKSPACE_NAME));
-            cq.distinct(true);
-            List<Tuple> tupleResult = getEntityManager().createQuery(cq).getResultList();
-            return tupleResult.stream().map(t -> (String) t.get(0)).toList();
+            cq.select(root.get(Announcement_.WORKSPACE_NAME)).distinct(true);
+            return getEntityManager().createQuery(cq).getResultList();
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_FIND_WORKSPACES_WITH_ANNOUNCEMENTS, ex);
         }
