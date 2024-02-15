@@ -85,6 +85,8 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         appId:
           type: string
+        title:
+          type: string
         workspaceName:
           type: string
         pageNumber:
