@@ -81,7 +81,6 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             }
             if (criteria.getTitle() != null) {
                 predicates.add(cb.like(root.get(Announcement_.TITLE), QueryCriteriaUtil.wildcard(criteria.getTitle())));
-                //QueryCriteriaUtil.addSearchStringPredicate(predicates, cb, root.get(Announcement_.TITLE), criteria.getTitle());
             }
 
             if (!predicates.isEmpty()) {
