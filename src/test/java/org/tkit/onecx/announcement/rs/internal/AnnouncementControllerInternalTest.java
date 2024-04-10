@@ -50,6 +50,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         criteria.status(AnnouncementStatusDTO.ACTIVE);
         criteria.setPriority(AnnouncementPriorityTypeDTO.NORMAL);
         criteria.setType(AnnouncementTypeDTO.EVENT);
+        criteria.setTitle("title2");
         criteria.setStartDateFrom(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
         criteria.setStartDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
         criteria.setEndDateFrom(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
@@ -66,8 +67,8 @@ class AnnouncementControllerInternalTest extends AbstractTest {
                 .as(AnnouncementPageResultDTO.class);
 
         Assertions.assertThat(data).isNotNull();
-        Assertions.assertThat(data.getTotalElements()).isEqualTo(2);
-        Assertions.assertThat(data.getStream()).isNotNull().hasSize(2);
+        Assertions.assertThat(data.getTotalElements()).isEqualTo(1);
+        Assertions.assertThat(data.getStream()).isNotNull().hasSize(1);
     }
 
     @Test
