@@ -48,9 +48,6 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             cq.select(root).distinct(true);
 
             List<Predicate> predicates = new ArrayList<>();
-            if (criteria.getStatus() != null) {
-                predicates.add(root.get(Announcement_.STATUS).in(criteria.getStatus()));
-            }
             if (criteria.getAppId() != null) {
                 predicates.add(cb.equal(root.get(Announcement_.APP_ID), criteria.getAppId()));
             }
@@ -76,11 +73,15 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             if (criteria.getPriority() != null) {
                 predicates.add(root.get(Announcement_.PRIORITY).in(criteria.getPriority()));
             }
-
+            if (criteria.getStatus() != null) {
+                predicates.add(root.get(Announcement_.STATUS).in(criteria.getStatus()));
+            }
             if (criteria.getType() != null) {
                 predicates.add(root.get(Announcement_.TYPE).in(criteria.getType()));
             }
-            QueryCriteriaUtil.addSearchStringPredicate(predicates, cb, root.get(Announcement_.TITLE), criteria.getTitle());
+            if (criteria.getTitle() != null) {
+                predicates.add(cb.like(root.get(Announcement_.TITLE), QueryCriteriaUtil.wildcard(criteria.getTitle())));
+            }
 
             if (!predicates.isEmpty()) {
                 cq.where(cb.and(predicates.toArray(new Predicate[0])));
