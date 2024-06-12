@@ -1,0 +1,1 @@
+* xref:onecx-announcement-svc:index.adoc[Announcement service]
