@@ -109,5 +109,9 @@ class AnnouncementControllerV1Test extends AbstractTest {
         assertThat(data).isNotNull();
         assertThat(data.getTotalElements()).isEqualTo(2);
         assertThat(data.getStream()).isNotNull().hasSize(2);
+        assertThat(data.getStream().get(0).getEndDate()).isNotNull();
+        assertThat(data.getStream().get(0).getStartDate()).isNotNull();
+        assertThat(data.getStream().get(0).getStatus()).isNotNull();
+        assertThat(data.getStream().get(0).getAppId()).isNotNull();
     }
 }

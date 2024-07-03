@@ -46,6 +46,14 @@ components:
           $ref: '#/components/schemas/Type'
         priority:
           $ref: '#/components/schemas/Priority'
+        status:
+          $ref: '#/components/schemas/Status'
+        startDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        endDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        appId:
+          type: string
     AnnouncementPageResult:
       description: PageResult  for Announcements
       type: object
