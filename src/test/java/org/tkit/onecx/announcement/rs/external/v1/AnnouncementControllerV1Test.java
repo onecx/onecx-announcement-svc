@@ -5,12 +5,14 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
 import static jakarta.ws.rs.core.Response.Status.OK;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.tkit.quarkus.security.test.SecurityTestUtils.getKeycloakClientToken;
 
 import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.Test;
 import org.tkit.onecx.announcement.rs.v1.controller.AnnouncementControllerV1;
 import org.tkit.onecx.announcement.test.AbstractTest;
+import org.tkit.quarkus.security.test.GenerateKeycloakClient;
 import org.tkit.quarkus.test.WithDBData;
 
 import gen.org.tkit.onecx.announcement.v1.model.*;
@@ -20,6 +22,7 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 @TestHTTPEndpoint(AnnouncementControllerV1.class)
 @WithDBData(value = "data/test-v1.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
+@GenerateKeycloakClient(clientName = "testClient", scopes = { "ocx-an:read" })
 class AnnouncementControllerV1Test extends AbstractTest {
 
     @Test
@@ -27,6 +30,7 @@ class AnnouncementControllerV1Test extends AbstractTest {
         AnnouncementSearchCriteriaDTOV1 criteria = new AnnouncementSearchCriteriaDTOV1();
 
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(criteria)
                 .post()
@@ -54,6 +58,7 @@ class AnnouncementControllerV1Test extends AbstractTest {
         criteria.setEndDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
 
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(criteria)
                 .post()
@@ -71,6 +76,7 @@ class AnnouncementControllerV1Test extends AbstractTest {
     @Test
     void getAnnouncementsByCriteriaNoBodyTest() {
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .post()
                 .then()
@@ -96,6 +102,7 @@ class AnnouncementControllerV1Test extends AbstractTest {
         criteria.setEndDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
 
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .contentType(APPLICATION_JSON)
                 .body(criteria)
