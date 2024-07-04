@@ -5,6 +5,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.jboss.resteasy.reactive.RestResponse.Status.CREATED;
+import static org.tkit.quarkus.security.test.SecurityTestUtils.getKeycloakClientToken;
 
 import java.time.OffsetDateTime;
 
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.tkit.onecx.announcement.rs.internal.controller.AnnouncementControllerInternal;
 import org.tkit.onecx.announcement.rs.internal.mapper.AnnouncementMapper;
 import org.tkit.onecx.announcement.test.AbstractTest;
+import org.tkit.quarkus.security.test.GenerateKeycloakClient;
 import org.tkit.quarkus.test.WithDBData;
 
 import gen.org.tkit.onecx.announcement.rs.internal.model.*;
@@ -22,6 +24,7 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 @TestHTTPEndpoint(AnnouncementControllerInternal.class)
 @WithDBData(value = "data/test-internal.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
+@GenerateKeycloakClient(clientName = "testClient", scopes = { "ocx-an:read", "ocx-an:write", "ocx-an:delete", "ocx-an:all" })
 class AnnouncementControllerInternalTest extends AbstractTest {
 
     @Test
@@ -29,6 +32,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         AnnouncementSearchCriteriaDTO criteria = new AnnouncementSearchCriteriaDTO();
 
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(criteria)
                 .post("search")
@@ -57,6 +61,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         criteria.setEndDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
 
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(criteria)
                 .post("search")
@@ -82,6 +87,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         createDto.setStartDate(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
 
         var dto = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .contentType(APPLICATION_JSON)
                 .body(createDto)
@@ -98,6 +104,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
 
         // create announcement without body
         var exception = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .contentType(APPLICATION_JSON)
                 .post()
@@ -109,7 +116,8 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         assertThat(exception.getDetail()).isEqualTo("createAnnouncement.createAnnouncementRequestDTO: must not be null");
 
         // create announcement with existing name
-        dto = given().when()
+        dto = given()
+                .auth().oauth2(getKeycloakClientToken("testClient")).when()
                 .contentType(APPLICATION_JSON)
                 .body(createDto)
                 .post()
@@ -126,18 +134,21 @@ class AnnouncementControllerInternalTest extends AbstractTest {
     void deleteAnnouncementTest() {
         // delete
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .delete("a1")
                 .then().statusCode(NO_CONTENT.getStatusCode());
 
         // check if exists
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .get("a1")
                 .then().statusCode(NOT_FOUND.getStatusCode());
 
         // delete
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .delete("a1")
                 .then()
@@ -147,6 +158,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
     @Test
     void getAnnouncementTest() {
         var dto = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .get("a2")
                 .then()
@@ -160,6 +172,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         assertThat(dto.getTitle()).isEqualTo("title2");
 
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .get("does-not-exists")
                 .then().statusCode(NOT_FOUND.getStatusCode());
@@ -175,6 +188,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         updateDto.setModificationCount(0);
 
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(updateDto)
                 .when()
@@ -183,13 +197,15 @@ class AnnouncementControllerInternalTest extends AbstractTest {
                 .statusCode(NOT_FOUND.getStatusCode());
 
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(updateDto)
                 .when()
                 .put("a1")
                 .then().statusCode(OK.getStatusCode());
 
-        var dto = given().contentType(APPLICATION_JSON)
+        var dto = given()
+                .auth().oauth2(getKeycloakClientToken("testClient")).contentType(APPLICATION_JSON)
                 .body(updateDto)
                 .when()
                 .get("a1")
@@ -200,6 +216,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
 
         // update theme with wrong modificationCount
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(updateDto)
                 .when()
@@ -215,6 +232,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
     void updateAnnouncementWithoutBodyTest() {
 
         var exception = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .when()
                 .put("update_create_new")
@@ -232,6 +250,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
     @Test
     void getAllAnnouncementAppsTest() {
         var dto = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .get("appIds")
                 .then()
@@ -258,6 +277,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         criteria.setEndDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
 
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .header(APM_HEADER_PARAM, createToken("org2"))
                 .body(criteria)
