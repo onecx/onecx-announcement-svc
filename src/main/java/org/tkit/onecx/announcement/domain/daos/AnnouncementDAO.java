@@ -48,8 +48,8 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             cq.select(root).distinct(true);
 
             List<Predicate> predicates = new ArrayList<>();
-            if (criteria.getAppId() != null) {
-                predicates.add(cb.equal(root.get(Announcement_.APP_ID), criteria.getAppId()));
+            if (criteria.getProductName() != null) {
+                predicates.add(cb.equal(root.get(Announcement_.PRODUCT_NAME), criteria.getProductName()));
             }
             if (criteria.getWorkspaceName() != null) {
                 predicates.add(cb.equal(root.get(Announcement_.WORKSPACE_NAME), criteria.getWorkspaceName()));
@@ -96,16 +96,16 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
 
     }
 
-    public List<String> findApplicationsWithAnnouncements() {
+    public List<String> findProductsWithAnnouncements() {
         try {
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<String> cq = cb.createQuery(String.class);
             Root<Announcement> root = cq.from(Announcement.class);
-            cq.select(root.get(Announcement_.APP_ID)).distinct(true);
-            cq.where(root.get(Announcement_.APP_ID).isNotNull());
+            cq.select(root.get(Announcement_.PRODUCT_NAME)).distinct(true);
+            cq.where(root.get(Announcement_.PRODUCT_NAME).isNotNull());
             return getEntityManager().createQuery(cq).getResultList();
         } catch (Exception ex) {
-            throw new DAOException(ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_ANNOUNCEMENTS, ex);
+            throw new DAOException(ErrorKeys.ERROR_FIND_PRODUCTS_WITH_ANNOUNCEMENTS, ex);
         }
     }
 
@@ -126,7 +126,7 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
 
         FIND_ENTITY_BY_ID_FAILED,
         ERROR_LOAD_ANNOUNCEMENT_BY_CRITERIA,
-        ERROR_FIND_APPLICATIONS_WITH_ANNOUNCEMENTS,
+        ERROR_FIND_PRODUCTS_WITH_ANNOUNCEMENTS,
         ERROR_FIND_WORKSPACES_WITH_ANNOUNCEMENTS
     }
 

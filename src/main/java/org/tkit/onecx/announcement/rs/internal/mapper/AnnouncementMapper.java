@@ -25,14 +25,14 @@ import gen.org.tkit.onecx.announcement.rs.internal.model.*;
 @Mapper(uses = OffsetDateTimeMapper.class)
 public interface AnnouncementMapper {
 
-    default AnnouncementAppsDTO map(List<String> appIds, List<String> workspaceNames) {
-        if (appIds == null && workspaceNames == null) {
+    default AnnouncementProductsDTO map(List<String> productNames, List<String> workspaceNames) {
+        if (productNames == null && workspaceNames == null) {
             return null;
         }
 
-        AnnouncementAppsDTO dto = new AnnouncementAppsDTO();
-        if (appIds != null) {
-            dto.setAppIds(appIds);
+        AnnouncementProductsDTO dto = new AnnouncementProductsDTO();
+        if (productNames != null) {
+            dto.setProductNames(productNames);
         }
         if (workspaceNames != null) {
             dto.setWorkspaceNames(workspaceNames);

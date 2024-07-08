@@ -70,21 +70,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
-  /internal/announcements/appIds:
+  /internal/announcements/products:
     get:
       security:
         - oauth2: [ ocx-an:all, ocx-an:read ]
       tags:
         - AnnouncementInternal
-      summary: Get all application IDs to which announcements are assigned
-      operationId: getAllAppsWithAnnouncements
+      summary: Get all productNames to which announcements are assigned
+      operationId: getAllProductsWithAnnouncements
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnnouncementApps'
+                $ref: '#/components/schemas/AnnouncementProducts'
   /internal/announcements/{id}:
     get:
       security:
@@ -167,10 +167,10 @@ components:
             ocx-an:write: Grants write access
             ocx-an:delete: Grants access to delete operations
   schemas:
-    AnnouncementApps:
+    AnnouncementProducts:
       type: object
       properties:
-        appIds:
+        productNames:
           type: array
           items:
             type: string
@@ -198,7 +198,7 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         endDate:
           $ref: '#/components/schemas/OffsetDateTime'
-        appId:
+        productName:
           type: string
         workspaceName:
           type: string
@@ -223,7 +223,7 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         endDateTo:
           $ref: '#/components/schemas/OffsetDateTime'
-        appId:
+        productName:
           type: string
         workspaceName:
           type: string
@@ -262,7 +262,7 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         endDate:
           $ref: '#/components/schemas/OffsetDateTime'
-        appId:
+        productName:
           type: string
         workspaceName:
           type: string
@@ -296,7 +296,7 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         endDate:
           $ref: '#/components/schemas/OffsetDateTime'
-        appId:
+        productName:
           type: string
         workspaceName:
           type: string

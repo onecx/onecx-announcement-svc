@@ -28,9 +28,9 @@ class AnnouncementControllerInternalExceptionTest extends AbstractTest {
 
     @BeforeEach
     void beforeAll() {
-        Mockito.when(dao.findApplicationsWithAnnouncements())
+        Mockito.when(dao.findProductsWithAnnouncements())
                 .thenThrow(new RuntimeException("Test technical error exception"))
-                .thenThrow(new DAOException(AnnouncementDAO.ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_ANNOUNCEMENTS,
+                .thenThrow(new DAOException(AnnouncementDAO.ErrorKeys.ERROR_FIND_PRODUCTS_WITH_ANNOUNCEMENTS,
                         new RuntimeException("Test")));
     }
 
@@ -39,14 +39,14 @@ class AnnouncementControllerInternalExceptionTest extends AbstractTest {
         given()
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
-                .get("appIds")
+                .get("products")
                 .then()
                 .statusCode(INTERNAL_SERVER_ERROR.getStatusCode());
 
         given()
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
-                .get("appIds")
+                .get("products")
                 .then()
                 .statusCode(INTERNAL_SERVER_ERROR.getStatusCode());
 

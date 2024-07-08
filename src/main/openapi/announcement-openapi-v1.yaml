@@ -62,7 +62,7 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         endDate:
           $ref: '#/components/schemas/OffsetDateTime'
-        appId:
+        productName:
           type: string
     AnnouncementPageResult:
       description: PageResult  for Announcements
@@ -101,7 +101,7 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         endDateTo:
           $ref: '#/components/schemas/OffsetDateTime'
-        appId:
+        productName:
           type: string
         title:
           type: string

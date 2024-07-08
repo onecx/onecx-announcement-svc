@@ -29,7 +29,7 @@ public class AnnouncementSearchCriteria {
 
     private @Valid OffsetDateTime endDateTo;
 
-    private @Valid String appId;
+    private @Valid String productName;
 
     private @Valid Integer pageNumber = 0;
 

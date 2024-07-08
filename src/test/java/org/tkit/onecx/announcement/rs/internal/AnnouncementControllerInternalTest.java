@@ -50,7 +50,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
     @Test
     void getAnnouncementsByCriteriaTest() {
         AnnouncementSearchCriteriaDTO criteria = new AnnouncementSearchCriteriaDTO();
-        criteria.setAppId("app2");
+        criteria.setProductName("product2");
         criteria.status(AnnouncementStatusDTO.ACTIVE);
         criteria.setPriority(AnnouncementPriorityTypeDTO.NORMAL);
         criteria.setType(AnnouncementTypeDTO.EVENT);
@@ -82,7 +82,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         // create announcement
         var createDto = new CreateAnnouncementRequestDTO();
 
-        createDto.setAppId("app0");
+        createDto.setProductName("product0");
         createDto.setTitle("basePath");
         createDto.setStartDate(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
 
@@ -98,7 +98,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
                 .body().as(AnnouncementDTO.class);
 
         assertThat(dto).isNotNull();
-        assertThat(dto.getAppId()).isNotNull().isEqualTo(createDto.getAppId());
+        assertThat(dto.getProductName()).isNotNull().isEqualTo(createDto.getProductName());
         assertThat(dto.getTitle()).isNotNull().isEqualTo(createDto.getTitle());
         assertThat(dto.getStartDate()).isNotNull().isEqualTo(createDto.getStartDate());
 
@@ -126,7 +126,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
                 .extract().as(AnnouncementDTO.class);
 
         assertThat(dto).isNotNull();
-        assertThat(dto.getAppId()).isNotNull().isEqualTo(createDto.getAppId());
+        assertThat(dto.getProductName()).isNotNull().isEqualTo(createDto.getProductName());
         assertThat(dto.getTitle()).isNotNull().isEqualTo(createDto.getTitle());
     }
 
@@ -168,7 +168,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
                 .body().as(AnnouncementDTO.class);
 
         assertThat(dto).isNotNull();
-        assertThat(dto.getAppId()).isEqualTo("app2");
+        assertThat(dto.getProductName()).isEqualTo("product2");
         assertThat(dto.getTitle()).isEqualTo("title2");
 
         given()
@@ -248,25 +248,25 @@ class AnnouncementControllerInternalTest extends AbstractTest {
     }
 
     @Test
-    void getAllAnnouncementAppsTest() {
+    void getAllAnnouncementProductsTest() {
         var dto = given()
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
-                .get("appIds")
+                .get("products")
                 .then()
                 .statusCode(OK.getStatusCode())
                 .contentType(APPLICATION_JSON)
                 .extract()
-                .body().as(AnnouncementAppsDTO.class);
+                .body().as(AnnouncementProductsDTO.class);
 
         assertThat(dto).isNotNull();
-        assertThat(dto.getAppIds()).isNotNull().asList().hasSize(2);
+        assertThat(dto.getProductNames()).isNotNull().asList().hasSize(2);
     }
 
     @Test
     void getAnnouncementsByCriteriaOrg200Test() {
         AnnouncementSearchCriteriaDTO criteria = new AnnouncementSearchCriteriaDTO();
-        criteria.setAppId("app2");
+        criteria.setProductName("product2");
         criteria.setWorkspaceName("workspace2");
         criteria.status(AnnouncementStatusDTO.ACTIVE);
         criteria.setPriority(AnnouncementPriorityTypeDTO.NORMAL);
