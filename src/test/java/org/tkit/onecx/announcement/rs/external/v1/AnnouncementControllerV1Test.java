@@ -48,7 +48,7 @@ class AnnouncementControllerV1Test extends AbstractTest {
     @Test
     void getAnnouncementsByCriteriaTest() {
         AnnouncementSearchCriteriaDTOV1 criteria = new AnnouncementSearchCriteriaDTOV1();
-        criteria.setAppId("app2");
+        criteria.setProductName("product2");
         criteria.status(StatusDTOV1.ACTIVE);
         criteria.setPriority(PriorityDTOV1.NORMAL);
         criteria.setType(TypeDTOV1.EVENT);
@@ -92,7 +92,7 @@ class AnnouncementControllerV1Test extends AbstractTest {
     @Test
     void getAnnouncementsByCriteriaOrg1Test() {
         AnnouncementSearchCriteriaDTOV1 criteria = new AnnouncementSearchCriteriaDTOV1();
-        criteria.setAppId("app2");
+        criteria.setProductName("product2");
         criteria.status(StatusDTOV1.ACTIVE);
         criteria.setPriority(PriorityDTOV1.NORMAL);
         criteria.setType(TypeDTOV1.EVENT);
@@ -119,6 +119,6 @@ class AnnouncementControllerV1Test extends AbstractTest {
         assertThat(data.getStream().get(0).getEndDate()).isNotNull();
         assertThat(data.getStream().get(0).getStartDate()).isNotNull();
         assertThat(data.getStream().get(0).getStatus()).isNotNull();
-        assertThat(data.getStream().get(0).getAppId()).isNotNull();
+        assertThat(data.getStream().get(0).getProductName()).isNotNull();
     }
 }

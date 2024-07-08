@@ -18,11 +18,11 @@ public class InternalLogParam implements LogParam {
         return List.of(
                 item(10, CreateAnnouncementRequestDTO.class, x -> {
                     CreateAnnouncementRequestDTO d = (CreateAnnouncementRequestDTO) x;
-                    return CreateAnnouncementRequestDTO.class.getSimpleName() + "[ appId:" + d.getAppId() + "]";
+                    return CreateAnnouncementRequestDTO.class.getSimpleName() + "[ productName:" + d.getProductName() + "]";
                 }),
                 item(10, UpdateAnnouncementRequestDTO.class, x -> {
                     UpdateAnnouncementRequestDTO d = (UpdateAnnouncementRequestDTO) x;
-                    return UpdateAnnouncementRequestDTO.class.getSimpleName() + "[ appId:" + d.getAppId() + "]";
+                    return UpdateAnnouncementRequestDTO.class.getSimpleName() + "[ productName:" + d.getProductName() + "]";
                 }),
                 item(10, AnnouncementSearchCriteriaDTO.class, x -> {
                     AnnouncementSearchCriteriaDTO d = (AnnouncementSearchCriteriaDTO) x;

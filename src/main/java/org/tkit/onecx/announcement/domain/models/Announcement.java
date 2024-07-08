@@ -48,8 +48,8 @@ public class Announcement extends TraceableEntity {
     @Column(name = "endDate")
     private LocalDateTime endDate;
 
-    @Column(name = "appId")
-    private String appId;
+    @Column(name = "PRODUCT_NAME")
+    private String productName;
 
     @Column(name = "workspaceName")
     private String workspaceName;

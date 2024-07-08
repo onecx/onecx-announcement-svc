@@ -32,8 +32,8 @@ class AnnouncementDAOTest extends AbstractTest {
     void methodExceptionTests() {
         methodExceptionTests(() -> dao.findById(null),
                 AnnouncementDAO.ErrorKeys.FIND_ENTITY_BY_ID_FAILED);
-        methodExceptionTests(() -> dao.findApplicationsWithAnnouncements(),
-                AnnouncementDAO.ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_ANNOUNCEMENTS);
+        methodExceptionTests(() -> dao.findProductsWithAnnouncements(),
+                AnnouncementDAO.ErrorKeys.ERROR_FIND_PRODUCTS_WITH_ANNOUNCEMENTS);
         methodExceptionTests(() -> dao.loadAnnouncementByCriteria(null),
                 AnnouncementDAO.ErrorKeys.ERROR_LOAD_ANNOUNCEMENT_BY_CRITERIA);
         methodExceptionTests(() -> dao.findWorkspacesWithAnnouncements(),
