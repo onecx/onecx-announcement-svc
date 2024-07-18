@@ -1,5 +1,7 @@
 package org.tkit.onecx.announcement.domain.daos;
 
+import static org.tkit.quarkus.jpa.utils.QueryCriteriaUtil.addSearchStringPredicate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,6 @@ import org.tkit.quarkus.jpa.daos.PageResult;
 import org.tkit.quarkus.jpa.exceptions.DAOException;
 import org.tkit.quarkus.jpa.models.AbstractTraceableEntity_;
 import org.tkit.quarkus.jpa.models.TraceableEntity_;
-import org.tkit.quarkus.jpa.utils.QueryCriteriaUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -79,9 +80,7 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             if (criteria.getType() != null) {
                 predicates.add(root.get(Announcement_.TYPE).in(criteria.getType()));
             }
-            if (criteria.getTitle() != null) {
-                predicates.add(cb.like(root.get(Announcement_.TITLE), QueryCriteriaUtil.wildcard(criteria.getTitle())));
-            }
+            addSearchStringPredicate(predicates, cb, root.get(Announcement_.title), criteria.getTitle());
 
             if (!predicates.isEmpty()) {
                 cq.where(cb.and(predicates.toArray(new Predicate[0])));
