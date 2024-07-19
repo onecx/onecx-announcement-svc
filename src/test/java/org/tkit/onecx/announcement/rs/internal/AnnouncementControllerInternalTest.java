@@ -10,6 +10,7 @@ import static org.tkit.quarkus.security.test.SecurityTestUtils.getKeycloakClient
 import java.time.OffsetDateTime;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
 import org.tkit.onecx.announcement.rs.internal.controller.AnnouncementControllerInternal;
 import org.tkit.onecx.announcement.rs.internal.mapper.AnnouncementMapper;
@@ -243,7 +244,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         assertThat(exception).isNotNull();
         assertThat(exception.getErrorCode()).isEqualTo(AnnouncementMapper.ErrorKeys.CONSTRAINT_VIOLATIONS.name());
         assertThat(exception.getDetail()).isEqualTo("updateAnnouncementById.updateAnnouncementRequestDTO: must not be null");
-        assertThat(exception.getInvalidParams()).isNotNull().asList().hasSize(1);
+        assertThat(exception.getInvalidParams()).isNotNull().asInstanceOf(InstanceOfAssertFactories.LIST).hasSize(1);
 
     }
 
@@ -260,7 +261,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
                 .body().as(AnnouncementProductsDTO.class);
 
         assertThat(dto).isNotNull();
-        assertThat(dto.getProductNames()).isNotNull().asList().hasSize(2);
+        assertThat(dto.getProductNames()).isNotNull().asInstanceOf(InstanceOfAssertFactories.LIST).hasSize(2);
     }
 
     @Test
