@@ -44,8 +44,34 @@ class AnnouncementControllerInternalTest extends AbstractTest {
                 .as(AnnouncementPageResultDTO.class);
 
         Assertions.assertThat(data).isNotNull();
-        Assertions.assertThat(data.getTotalElements()).isEqualTo(5);
-        Assertions.assertThat(data.getStream()).isNotNull().hasSize(5);
+        Assertions.assertThat(data.getTotalElements()).isEqualTo(6);
+        Assertions.assertThat(data.getStream()).isNotNull().hasSize(6);
+    }
+
+    @Test
+    void getActiveAnnouncementsByCriteriaAllTest() {
+        AnnouncementSearchCriteriaDTO criteria = new AnnouncementSearchCriteriaDTO();
+
+        criteria.status(AnnouncementStatusDTO.ACTIVE);
+        criteria.workspaceName("workspace6");
+        criteria.setStartDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
+        criteria.setEndDateFrom(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
+
+        var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .contentType(APPLICATION_JSON)
+                .body(criteria)
+                .post("search")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract()
+                .as(AnnouncementPageResultDTO.class);
+
+        Assertions.assertThat(data).isNotNull();
+        Assertions.assertThat(data.getTotalElements()).isEqualTo(1);
+        Assertions.assertThat(data.getStream()).isNotNull().hasSize(1);
+        Assertions.assertThat(data.getStream().get(0).getWorkspaceName()).isEqualTo("workspace6");
     }
 
     @Test

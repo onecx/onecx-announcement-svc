@@ -56,6 +56,7 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
                 predicates.add(cb.equal(root.get(Announcement_.WORKSPACE_NAME), criteria.getWorkspaceName()));
             }
             if (criteria.getStartDateFrom() != null) {
+
                 predicates.add(cb.greaterThanOrEqualTo(root.get(Announcement_.START_DATE),
                         criteria.getStartDateFrom().toLocalDateTime()));
             }
@@ -64,8 +65,15 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
                         criteria.getStartDateTo().toLocalDateTime()));
             }
             if (criteria.getEndDateFrom() != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get(Announcement_.END_DATE),
-                        criteria.getEndDateFrom().toLocalDateTime()));
+
+                Predicate endDatePredicate = cb.greaterThanOrEqualTo(root.get(Announcement_.END_DATE),
+                        criteria.getEndDateFrom().toLocalDateTime());
+                // Also include cases where END_DATE is null
+                Predicate endDateIsNullPredicate = cb.isNull(root.get(Announcement_.END_DATE));
+
+                // Combine the predicates using OR
+                predicates.add(cb.or(endDatePredicate, endDateIsNullPredicate));
+
             }
             if (criteria.getEndDateTo() != null) {
                 predicates.add(
