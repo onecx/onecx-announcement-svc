@@ -2,11 +2,7 @@ package org.tkit.onecx.announcement.domain.models;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import org.hibernate.annotations.TenantId;
 import org.tkit.quarkus.jpa.models.TraceableEntity;
@@ -16,7 +12,11 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "announcement")
+@Table(name = "announcement", indexes = {
+        @Index(name = "start_status_idx", columnList = "startDate, status, TENANT_ID"),
+        @Index(name = "product_idx", columnList = "PRODUCT_NAME, TENANT_ID"),
+        @Index(name = "workspace_idx", columnList = "workspaceName, TENANT_ID")
+})
 @SuppressWarnings("java:S2160")
 public class Announcement extends TraceableEntity {
 
