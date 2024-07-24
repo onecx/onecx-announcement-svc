@@ -1,0 +1,19 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet author="dev (generated)" id="1720423004675-1">
+        <sql>
+            DROP INDEX IF EXISTS start_status_idx;
+            CREATE INDEX IF NOT EXISTS start_status_idx ON announcement (startdate, status, tenant_id);
+
+            DROP INDEX IF EXISTS product_idx;
+            CREATE INDEX IF NOT EXISTS product_idx ON announcement (product_name, tenant_id);
+
+            DROP INDEX IF EXISTS workspace_idx;
+            CREATE INDEX IF NOT EXISTS workspace_idx ON announcement (workspaceName, tenant_id);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
