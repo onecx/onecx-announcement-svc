@@ -13,9 +13,9 @@ import lombok.*;
 @Setter
 @Entity
 @Table(name = "announcement", indexes = {
-        @Index(name = "start_status_idx", columnList = "startDate, status, TENANT_ID"),
-        @Index(name = "product_idx", columnList = "PRODUCT_NAME, TENANT_ID"),
-        @Index(name = "workspace_idx", columnList = "workspaceName, TENANT_ID")
+        @Index(name = "START_STATUS_IDX", columnList = "startDate, status, TENANT_ID"),
+        @Index(name = "PRODUCT_IDX", columnList = "PRODUCT_NAME, TENANT_ID"),
+        @Index(name = "WORKSPACE_IDX", columnList = "workspaceName, TENANT_ID")
 })
 @SuppressWarnings("java:S2160")
 public class Announcement extends TraceableEntity {
