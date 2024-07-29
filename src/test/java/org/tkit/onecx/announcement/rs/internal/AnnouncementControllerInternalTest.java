@@ -49,19 +49,15 @@ class AnnouncementControllerInternalTest extends AbstractTest {
     }
 
     @Test
-    void getActiveAnnouncementsByCriteriaAllTest() {
-        AnnouncementSearchCriteriaDTO criteria = new AnnouncementSearchCriteriaDTO();
-
-        criteria.status(AnnouncementStatusDTO.ACTIVE);
-        criteria.workspaceName("workspace6");
-        criteria.setStartDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
-        criteria.setEndDateFrom(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
+    void searchAnnouncementBannersByCriteriaTest() {
+        AnnouncementBannerSearchCriteriaDTO criteriaDTO = new AnnouncementBannerSearchCriteriaDTO();
+        criteriaDTO.setCurrentDate(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
 
         var data = given()
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
-                .body(criteria)
-                .post("search")
+                .body(criteriaDTO)
+                .post("banner/search")
                 .then()
                 .statusCode(OK.getStatusCode())
                 .contentType(APPLICATION_JSON)
@@ -71,7 +67,42 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         Assertions.assertThat(data).isNotNull();
         Assertions.assertThat(data.getTotalElements()).isEqualTo(1);
         Assertions.assertThat(data.getStream()).isNotNull().hasSize(1);
-        Assertions.assertThat(data.getStream().get(0).getWorkspaceName()).isEqualTo("workspace6");
+
+        criteriaDTO.setWorkspaceName("workspace6");
+
+        data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .contentType(APPLICATION_JSON)
+                .body(criteriaDTO)
+                .post("banner/search")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract()
+                .as(AnnouncementPageResultDTO.class);
+
+        Assertions.assertThat(data).isNotNull();
+        Assertions.assertThat(data.getTotalElements()).isEqualTo(1);
+        Assertions.assertThat(data.getStream()).isNotNull().hasSize(1);
+
+        criteriaDTO.setWorkspaceName(null);
+        criteriaDTO.setProductName("product1");
+        criteriaDTO.setCurrentDate(OffsetDateTime.parse("2020-03-10T12:15:50-04:00"));
+
+        data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .contentType(APPLICATION_JSON)
+                .body(criteriaDTO)
+                .post("banner/search")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract()
+                .as(AnnouncementPageResultDTO.class);
+
+        Assertions.assertThat(data).isNotNull();
+        Assertions.assertThat(data.getTotalElements()).isEqualTo(1);
+        Assertions.assertThat(data.getStream()).isNotNull().hasSize(1);
     }
 
     @Test

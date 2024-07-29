@@ -74,6 +74,14 @@ public class AnnouncementControllerInternal implements AnnouncementInternalApi {
     }
 
     @Override
+    public Response searchAnnouncementBanners(AnnouncementBannerSearchCriteriaDTO announcementBannerSearchCriteriaDTO) {
+        var criteria = mapper.map(announcementBannerSearchCriteriaDTO);
+        var page = dao.loadAnnouncementBannersByCriteria(criteria);
+        var results = mapper.mapToPageResult(page);
+        return Response.ok().entity(results).build();
+    }
+
+    @Override
     public Response updateAnnouncementById(String id, UpdateAnnouncementRequestDTO updateAnnouncementRequestDTO) {
         var item = dao.findById(id);
         if (item == null) {

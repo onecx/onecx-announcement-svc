@@ -9,6 +9,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.*;
 
+import org.tkit.onecx.announcement.domain.criteria.AnnouncementBannerSearchCriteria;
 import org.tkit.onecx.announcement.domain.criteria.AnnouncementSearchCriteria;
 import org.tkit.onecx.announcement.domain.models.Announcement;
 import org.tkit.onecx.announcement.domain.models.Announcement_;
@@ -65,15 +66,8 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
                         criteria.getStartDateTo().toLocalDateTime()));
             }
             if (criteria.getEndDateFrom() != null) {
-
-                Predicate endDatePredicate = cb.greaterThanOrEqualTo(root.get(Announcement_.END_DATE),
-                        criteria.getEndDateFrom().toLocalDateTime());
-                // Also include cases where END_DATE is null
-                Predicate endDateIsNullPredicate = cb.isNull(root.get(Announcement_.END_DATE));
-
-                // Combine the predicates using OR
-                predicates.add(cb.or(endDatePredicate, endDateIsNullPredicate));
-
+                predicates.add(cb.greaterThanOrEqualTo(root.get(Announcement_.END_DATE),
+                        criteria.getEndDateFrom().toLocalDateTime()));
             }
             if (criteria.getEndDateTo() != null) {
                 predicates.add(
@@ -126,6 +120,39 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             return getEntityManager().createQuery(cq).getResultList();
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_FIND_WORKSPACES_WITH_ANNOUNCEMENTS, ex);
+        }
+    }
+
+    public PageResult<Announcement> loadAnnouncementBannersByCriteria(AnnouncementBannerSearchCriteria criteria) {
+
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Announcement> cq = cb.createQuery(Announcement.class);
+            Root<Announcement> root = cq.from(Announcement.class);
+            cq.select(root).distinct(true);
+
+            List<Predicate> predicates = new ArrayList<>();
+            if (criteria.getProductName() != null) {
+                predicates.add(cb.or(cb.equal(root.get(Announcement_.PRODUCT_NAME), criteria.getProductName()),
+                        cb.isNull(root.get(Announcement_.PRODUCT_NAME))));
+            }
+            if (criteria.getWorkspaceName() != null) {
+                predicates.add(cb.or(cb.equal(root.get(Announcement_.WORKSPACE_NAME), criteria.getWorkspaceName()),
+                        cb.isNull(root.get(Announcement_.WORKSPACE_NAME))));
+            }
+            predicates.add(cb.lessThanOrEqualTo(root.get(Announcement_.START_DATE),
+                    criteria.getCurrentDate().toLocalDateTime()));
+            predicates.add(cb.or(cb.greaterThanOrEqualTo(root.get(Announcement_.END_DATE),
+                    criteria.getCurrentDate().toLocalDateTime()),
+                    cb.isNull(root.get(Announcement_.END_DATE))));
+
+            cq.where(cb.and(predicates.toArray(new Predicate[0])));
+
+            //do query and sort resultList by Priority and creation-date
+            cq.orderBy(cb.desc(root.get(AbstractTraceableEntity_.CREATION_DATE)));
+            return createPageQuery(cq, Page.of(criteria.getPageNumber(), criteria.getPageSize())).getPageResult();
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_LOAD_ANNOUNCEMENT_BY_CRITERIA, ex);
         }
     }
 
