@@ -14,6 +14,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.tkit.onecx.announcement.domain.criteria.AnnouncementBannerSearchCriteria;
 import org.tkit.onecx.announcement.domain.criteria.AnnouncementSearchCriteria;
 import org.tkit.onecx.announcement.domain.models.Announcement;
 import org.tkit.quarkus.jpa.daos.PageResult;
@@ -110,6 +111,8 @@ public interface AnnouncementMapper {
     default String mapPath(Path path) {
         return path.toString();
     }
+
+    AnnouncementBannerSearchCriteria map(AnnouncementBannerSearchCriteriaDTO announcementBannerSearchCriteriaDTO);
 
     enum ErrorKeys {
         CONSTRAINT_VIOLATIONS,
