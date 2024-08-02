@@ -132,6 +132,7 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             cq.select(root).distinct(true);
 
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.equal(root.get(Announcement_.STATUS), Announcement.Status.ACTIVE));
             if (criteria.getProductName() != null) {
                 predicates.add(cb.or(cb.equal(root.get(Announcement_.PRODUCT_NAME), criteria.getProductName()),
                         cb.isNull(root.get(Announcement_.PRODUCT_NAME))));
@@ -142,6 +143,7 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             }
             predicates.add(cb.lessThanOrEqualTo(root.get(Announcement_.START_DATE),
                     criteria.getCurrentDate().toLocalDateTime()));
+
             predicates.add(cb.or(cb.greaterThanOrEqualTo(root.get(Announcement_.END_DATE),
                     criteria.getCurrentDate().toLocalDateTime()),
                     cb.isNull(root.get(Announcement_.END_DATE))));
