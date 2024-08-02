@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
     <ANNOUNCEMENT guid="a1" optlock="0" enddate="2022-02-05 06:01:00" startdate="2009-12-30 14:55:00"
-                  product_name="product1" content="some-content" priority="NORMAL" title="title1" type="EVENT" tenant_id="default" workspaceName="workspace1"/>
+                  product_name="product1" content="some-content" priority="NORMAL" status="ACTIVE" title="title1" type="EVENT" tenant_id="default" workspaceName="workspace1"/>
 
     <ANNOUNCEMENT guid="a2" optlock="0" enddate="2022-02-05 06:01:00" startdate="2009-12-30 14:55:00" status="ACTIVE"
                   product_name="product2" content="some-content" priority="NORMAL" title="title2" type="EVENT" tenant_id="default" workspaceName="workspace2"/>
