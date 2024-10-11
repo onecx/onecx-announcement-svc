@@ -8,6 +8,7 @@ import static org.jboss.resteasy.reactive.RestResponse.Status.CREATED;
 import static org.tkit.quarkus.security.test.SecurityTestUtils.getKeycloakClientToken;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -44,15 +45,15 @@ class AnnouncementControllerInternalTest extends AbstractTest {
                 .as(AnnouncementPageResultDTO.class);
 
         Assertions.assertThat(data).isNotNull();
-        Assertions.assertThat(data.getTotalElements()).isEqualTo(6);
-        Assertions.assertThat(data.getStream()).isNotNull().hasSize(6);
+        Assertions.assertThat(data.getTotalElements()).isEqualTo(7);
+        Assertions.assertThat(data.getStream()).isNotNull().hasSize(7);
     }
 
     @Test
     void searchAnnouncementBannersByCriteriaTest() {
         AnnouncementBannerSearchCriteriaDTO criteriaDTO = new AnnouncementBannerSearchCriteriaDTO();
         criteriaDTO.setCurrentDate(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
-
+        criteriaDTO.setAppearance(null);
         var data = given()
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
@@ -65,11 +66,11 @@ class AnnouncementControllerInternalTest extends AbstractTest {
                 .as(AnnouncementPageResultDTO.class);
 
         Assertions.assertThat(data).isNotNull();
-        Assertions.assertThat(data.getTotalElements()).isEqualTo(1);
-        Assertions.assertThat(data.getStream()).isNotNull().hasSize(1);
+        Assertions.assertThat(data.getTotalElements()).isEqualTo(2);
+        Assertions.assertThat(data.getStream()).isNotNull().hasSize(2);
 
         criteriaDTO.setWorkspaceName("workspace6");
-
+        criteriaDTO.setAppearance(List.of());
         data = given()
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
@@ -82,12 +83,13 @@ class AnnouncementControllerInternalTest extends AbstractTest {
                 .as(AnnouncementPageResultDTO.class);
 
         Assertions.assertThat(data).isNotNull();
-        Assertions.assertThat(data.getTotalElements()).isEqualTo(1);
-        Assertions.assertThat(data.getStream()).isNotNull().hasSize(1);
+        Assertions.assertThat(data.getTotalElements()).isEqualTo(2);
+        Assertions.assertThat(data.getStream()).isNotNull().hasSize(2);
 
         criteriaDTO.setWorkspaceName(null);
         criteriaDTO.setProductName("product1");
         criteriaDTO.setCurrentDate(OffsetDateTime.parse("2020-03-10T12:15:50-04:00"));
+        criteriaDTO.setAppearance(List.of(AnnouncementAppearanceDTO.ALL));
 
         data = given()
                 .auth().oauth2(getKeycloakClientToken("testClient"))
@@ -117,6 +119,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         criteria.setStartDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
         criteria.setEndDateFrom(OffsetDateTime.parse("2000-03-10T12:15:50-04:00"));
         criteria.setEndDateTo(OffsetDateTime.parse("2023-03-10T12:15:50-04:00"));
+        criteria.setAppearance(List.of(AnnouncementAppearanceDTO.ALL));
 
         var data = given()
                 .auth().oauth2(getKeycloakClientToken("testClient"))
@@ -132,6 +135,46 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         Assertions.assertThat(data).isNotNull();
         Assertions.assertThat(data.getTotalElements()).isEqualTo(1);
         Assertions.assertThat(data.getStream()).isNotNull().hasSize(1);
+    }
+
+    @Test
+    void getAnnouncementsByAppearanceCriteriaTest() {
+        AnnouncementSearchCriteriaDTO criteria = new AnnouncementSearchCriteriaDTO();
+        criteria.setAppearance(List.of(AnnouncementAppearanceDTO.ALL));
+
+        var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .contentType(APPLICATION_JSON)
+                .body(criteria)
+                .post("search")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract()
+                .as(AnnouncementPageResultDTO.class);
+
+        Assertions.assertThat(data).isNotNull();
+        Assertions.assertThat(data.getTotalElements()).isEqualTo(6);
+        Assertions.assertThat(data.getStream()).isNotNull().hasSize(6);
+
+        //should find all with empty appearance list
+        AnnouncementSearchCriteriaDTO criteria2 = new AnnouncementSearchCriteriaDTO();
+        criteria2.setAppearance(null);
+
+        data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .contentType(APPLICATION_JSON)
+                .body(criteria2)
+                .post("search")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract()
+                .as(AnnouncementPageResultDTO.class);
+
+        Assertions.assertThat(data).isNotNull();
+        Assertions.assertThat(data.getTotalElements()).isEqualTo(7);
+        Assertions.assertThat(data.getStream()).isNotNull().hasSize(7);
     }
 
     @Test
@@ -159,6 +202,7 @@ class AnnouncementControllerInternalTest extends AbstractTest {
         assertThat(dto.getProductName()).isNotNull().isEqualTo(createDto.getProductName());
         assertThat(dto.getTitle()).isNotNull().isEqualTo(createDto.getTitle());
         assertThat(dto.getStartDate()).isNotNull().isEqualTo(createDto.getStartDate());
+        assertThat(dto.getAppearance()).isEqualTo(AnnouncementAppearanceDTO.ALL);
 
         // create announcement without body
         var exception = given()

@@ -58,6 +58,8 @@ components:
           $ref: '#/components/schemas/Priority'
         status:
           $ref: '#/components/schemas/Status'
+        appearance:
+          $ref: '#/components/schemas/AnnouncementAppearance'
         startDate:
           $ref: '#/components/schemas/OffsetDateTime'
         endDate:
@@ -93,6 +95,10 @@ components:
           $ref: '#/components/schemas/Priority'
         status:
           $ref: '#/components/schemas/Status'
+        appearance:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnnouncementAppearance'
         startDateFrom:
           $ref: '#/components/schemas/OffsetDateTime'
         startDateTo:
@@ -133,6 +139,12 @@ components:
         - EVENT
         - INFO
         - SYSTEM_MAINTENANCE
+      type: string
+    AnnouncementAppearance:
+      enum:
+        - BANNER
+        - WELCOME
+        - ALL
       type: string
     OffsetDateTime:
       format: date-time

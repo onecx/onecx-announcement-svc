@@ -6,5 +6,5 @@
     <include relativeToChangelogFile="true" file="v1/2023-12-11-create-tables.xml"/>
     <include relativeToChangelogFile="true" file="v1/2024-07-08-product-names.xml"/>
     <include relativeToChangelogFile="true" file="v1/2024-07-24-indices-added.xml"/>
-
+    <include relativeToChangelogFile="true" file="v1/2024-10-11-add-appearance.xml"/>
 </databaseChangeLog>

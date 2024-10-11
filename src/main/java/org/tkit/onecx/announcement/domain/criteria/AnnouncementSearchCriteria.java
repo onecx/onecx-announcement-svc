@@ -37,5 +37,7 @@ public class AnnouncementSearchCriteria {
 
     private @Valid String workspaceName;
 
+    private Announcement.Appearance[] appearance;
+
     private String title;
 }

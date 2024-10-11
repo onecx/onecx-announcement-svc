@@ -3,6 +3,7 @@ package org.tkit.onecx.announcement.domain.daos;
 import static org.tkit.quarkus.jpa.utils.QueryCriteriaUtil.addSearchStringPredicate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -83,7 +84,9 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
                 predicates.add(root.get(Announcement_.TYPE).in(criteria.getType()));
             }
             addSearchStringPredicate(predicates, cb, root.get(Announcement_.title), criteria.getTitle());
-
+            if (criteria.getAppearance() != null && criteria.getAppearance().length > 0) {
+                cq.where(cb.and(root.get(Announcement_.APPEARANCE).in(Arrays.stream(criteria.getAppearance()).toList())));
+            }
             if (!predicates.isEmpty()) {
                 cq.where(cb.and(predicates.toArray(new Predicate[0])));
             }
@@ -147,7 +150,9 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             predicates.add(cb.or(cb.greaterThanOrEqualTo(root.get(Announcement_.END_DATE),
                     criteria.getCurrentDate().toLocalDateTime()),
                     cb.isNull(root.get(Announcement_.END_DATE))));
-
+            if (criteria.getAppearance() != null && criteria.getAppearance().length > 0) {
+                cq.where(cb.and(root.get(Announcement_.APPEARANCE).in(Arrays.stream(criteria.getAppearance()).toList())));
+            }
             cq.where(cb.and(predicates.toArray(new Predicate[0])));
 
             //do query and sort resultList by Priority and creation-date
