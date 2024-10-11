@@ -4,6 +4,8 @@ import java.time.OffsetDateTime;
 
 import jakarta.validation.Valid;
 
+import org.tkit.onecx.announcement.domain.models.Announcement;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +20,8 @@ public class AnnouncementBannerSearchCriteria {
     private @Valid String productName;
 
     private @Valid String workspaceName;
+
+    private Announcement.Appearance[] appearance;
 
     private @Valid Integer pageNumber = 0;
 

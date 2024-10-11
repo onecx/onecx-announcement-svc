@@ -52,6 +52,7 @@ public interface AnnouncementMapper {
     @Mapping(target = "creationUser", ignore = true)
     @Mapping(target = "modificationUser", ignore = true)
     @Mapping(target = "tenantId", ignore = true)
+    @Mapping(target = "appearance", source = "appearance", defaultValue = "ALL")
     Announcement create(CreateAnnouncementRequestDTO dto);
 
     AnnouncementDTO map(Announcement announcement);

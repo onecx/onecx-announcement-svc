@@ -27,12 +27,16 @@ public class Announcement extends TraceableEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "content")
+    @Column(name = "content", length = 1000)
     private String content;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private Type type;
+
+    @Column(name = "appearance", columnDefinition = "varchar(255) default 'ALL'")
+    @Enumerated(EnumType.STRING)
+    private Appearance appearance = Appearance.ALL;
 
     @Column(name = "priority")
     @Enumerated(EnumType.STRING)
@@ -69,6 +73,12 @@ public class Announcement extends TraceableEntity {
     public enum Status {
         ACTIVE,
         INACTIVE;
+    }
+
+    public enum Appearance {
+        BANNER,
+        WELCOME,
+        ALL;
     }
 
 }

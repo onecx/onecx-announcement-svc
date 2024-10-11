@@ -223,6 +223,8 @@ components:
           $ref: '#/components/schemas/AnnouncementPriorityType'
         status:
           $ref: '#/components/schemas/AnnouncementStatus'
+        appearance:
+          $ref: '#/components/schemas/AnnouncementAppearance'
         startDate:
           $ref: '#/components/schemas/OffsetDateTime'
         endDate:
@@ -244,6 +246,10 @@ components:
           $ref: '#/components/schemas/AnnouncementPriorityType'
         status:
           $ref: '#/components/schemas/AnnouncementStatus'
+        appearance:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnnouncementAppearance'
         startDateFrom:
           $ref: '#/components/schemas/OffsetDateTime'
         startDateTo:
@@ -278,6 +284,10 @@ components:
           type: string
         workspaceName:
           type: string
+        appearance:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnnouncementAppearance'
         pageNumber:
           format: int32
           description: The number of page.
@@ -309,6 +319,8 @@ components:
           $ref: '#/components/schemas/AnnouncementPriorityType'
         status:
           $ref: '#/components/schemas/AnnouncementStatus'
+        appearance:
+          $ref: '#/components/schemas/AnnouncementAppearance'
         startDate:
           $ref: '#/components/schemas/OffsetDateTime'
         endDate:
@@ -343,6 +355,8 @@ components:
           $ref: '#/components/schemas/AnnouncementPriorityType'
         status:
           $ref: '#/components/schemas/AnnouncementStatus'
+        appearance:
+          $ref: '#/components/schemas/AnnouncementAppearance'
         startDate:
           $ref: '#/components/schemas/OffsetDateTime'
         endDate:
@@ -381,6 +395,12 @@ components:
       enum:
         - ACTIVE
         - INACTIVE
+      type: string
+    AnnouncementAppearance:
+      enum:
+        - BANNER
+        - WELCOME
+        - ALL
       type: string
     AnnouncementType:
       enum:
