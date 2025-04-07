@@ -11,3 +11,7 @@ app:
         spec:
           kcConfig:
             defaultClientScopes: [ ocx-tn:read ]
+    microservice:
+      spec:
+        description: OneCX Announcement Backend Service
+        name: OneCX Announcement SVC
