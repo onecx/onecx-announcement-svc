@@ -159,7 +159,7 @@
             <configuration>
               <skipDocs>${skipDocs}</skipDocs>
               <openApiFiles>
-                <openApiFile>announcement-openapi-v1.yaml</openApiFile>
+                <openApiFile>onecx-announcement-v1.yaml</openApiFile>
               </openApiFiles>
             </configuration>
           </execution>
@@ -201,7 +201,7 @@
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>src/main/openapi/announcement-openapi-internal.yaml</inputSpec>
+              <inputSpec>src/main/openapi/onecx-announcement-internal.yaml</inputSpec>
               <apiPackage>gen.org.tkit.onecx.announcement.rs.internal</apiPackage>
               <modelPackage>gen.org.tkit.onecx.announcement.rs.internal.model</modelPackage>
             </configuration>
@@ -212,7 +212,7 @@
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>src/main/openapi/announcement-openapi-v1.yaml</inputSpec>
+              <inputSpec>src/main/openapi/onecx-announcement-v1.yaml</inputSpec>
               <apiPackage>gen.org.tkit.onecx.announcement.v1</apiPackage>
               <modelPackage>gen.org.tkit.onecx.announcement.v1.model</modelPackage>
               <modelNameSuffix>DTOV1</modelNameSuffix>
