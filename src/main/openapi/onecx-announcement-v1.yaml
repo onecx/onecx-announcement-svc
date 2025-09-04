@@ -1,12 +1,13 @@
 openapi: "3.0.3"
 info:
-  title: onecx-announcement
+  title: onecx-announcement external service V1
+  description: This API provides endpoints to retrieve announcements
   version: "1.0"
 servers:
   - url: https://onecx-announcement-svc:8080
 tags:
   - name: Announcement
-    description: Announcement Management v1 RS API
+    description: Retrieve Announcements
 paths:
   /v1/applications/announcements/search:
     post:
@@ -14,7 +15,7 @@ paths:
         - oauth2: [ ocx-an:read ]
       tags:
         - Announcement
-      summary: Get announcements
+      description: Search announcements by search criteria
       operationId: getAnnouncementsByCriteria
       requestBody:
         required: true
@@ -24,7 +25,7 @@ paths:
               $ref: '#/components/schemas/AnnouncementSearchCriteria'
       responses:
         "200":
-          description: OK
+          description: Announcement search result retrieved successfully
           content:
             application/json:
               schema:
