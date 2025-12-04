@@ -1,0 +1,3 @@
+** xref:documentation:onecx-announcement-svc:index.adoc[Announcement service]
+*** External API(s)
+**** xref:documentation:onecx-announcement-svc:openapi/announcement-openapi-v1.adoc[Announcement Management V1]
