@@ -1,2 +1,2 @@
 # onecx-announcement-svc
-OneCx Announcement Service
+OneCX Announcement Service
