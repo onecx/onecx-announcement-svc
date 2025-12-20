@@ -67,7 +67,3 @@ app:
         name: OneCX Announcement SVC
 ----
 
-  description: OneCX Announcement Backend Service
-        name: OneCX Announcement SVC
-----
-
