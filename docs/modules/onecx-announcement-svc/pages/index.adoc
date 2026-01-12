@@ -1,8 +1,7 @@
 include::onecx-announcement-svc-attributes.adoc[opts=optional]
 
-== onecx-announcement-svc
+= OneCX Announcement Backend Service
 
-include::docs.adoc[opts=optional]
 
 
 include::onecx-announcement-svc-docs.adoc[opts=optional]
