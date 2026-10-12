@@ -57,30 +57,14 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             if (criteria.getWorkspaceName() != null) {
                 predicates.add(cb.equal(root.get(Announcement_.WORKSPACE_NAME), criteria.getWorkspaceName()));
             }
-            if (criteria.getStartDateFrom() != null) {
-
-                predicates.add(cb.greaterThanOrEqualTo(root.get(Announcement_.START_DATE),
-                        criteria.getStartDateFrom().toLocalDateTime()));
-            }
-            if (criteria.getStartDateTo() != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get(Announcement_.START_DATE),
-                        criteria.getStartDateTo().toLocalDateTime()));
-            }
-            if (criteria.getEndDateFrom() != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get(Announcement_.END_DATE),
-                        criteria.getEndDateFrom().toLocalDateTime()));
-            }
-            if (criteria.getEndDateTo() != null) {
-                predicates.add(
-                        cb.lessThanOrEqualTo(root.get(Announcement_.END_DATE), criteria.getEndDateTo().toLocalDateTime()));
-            }
-            if (criteria.getPriority() != null) {
+            addDatePredicates(criteria, cb, root, predicates);
+            if (criteria.getPriority() != null && !criteria.getPriority().isEmpty()) {
                 predicates.add(root.get(Announcement_.PRIORITY).in(criteria.getPriority()));
             }
-            if (criteria.getStatus() != null) {
+            if (criteria.getStatus() != null && !criteria.getStatus().isEmpty()) {
                 predicates.add(root.get(Announcement_.STATUS).in(criteria.getStatus()));
             }
-            if (criteria.getType() != null) {
+            if (criteria.getType() != null && !criteria.getType().isEmpty()) {
                 predicates.add(root.get(Announcement_.TYPE).in(criteria.getType()));
             }
             addSearchStringPredicate(predicates, cb, root.get(Announcement_.title), criteria.getTitle());
@@ -98,6 +82,26 @@ public class AnnouncementDAO extends AbstractDAO<Announcement> {
             throw new DAOException(ErrorKeys.ERROR_LOAD_ANNOUNCEMENT_BY_CRITERIA, ex);
         }
 
+    }
+
+    private void addDatePredicates(AnnouncementSearchCriteria criteria, CriteriaBuilder cb,
+            Root<Announcement> root, List<Predicate> predicates) {
+        if (criteria.getStartDateFrom() != null) {
+            predicates.add(cb.greaterThanOrEqualTo(root.get(Announcement_.START_DATE),
+                    criteria.getStartDateFrom().toLocalDateTime()));
+        }
+        if (criteria.getStartDateTo() != null) {
+            predicates.add(cb.lessThanOrEqualTo(root.get(Announcement_.START_DATE),
+                    criteria.getStartDateTo().toLocalDateTime()));
+        }
+        if (criteria.getEndDateFrom() != null) {
+            predicates.add(cb.greaterThanOrEqualTo(root.get(Announcement_.END_DATE),
+                    criteria.getEndDateFrom().toLocalDateTime()));
+        }
+        if (criteria.getEndDateTo() != null) {
+            predicates.add(cb.lessThanOrEqualTo(root.get(Announcement_.END_DATE),
+                    criteria.getEndDateTo().toLocalDateTime()));
+        }
     }
 
     public List<String> findProductsWithAnnouncements() {
